@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Assignment 1</string>
+    <string name="minus_btn">-</string>
+    <string name="plus_btn">+</string>
+    <string name="howMany_btn">1</string>
 </resources>
