@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CardView.Custom" parent="CardView">
+        <item name="cardCornerRadius">20dp</item>
+        <item name="cardForegroundColor">?attr/colorPrimary</item>
+    </style>
+</resources>

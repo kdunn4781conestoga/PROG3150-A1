@@ -24,10 +24,11 @@ public class SecondActivity extends AppCompatActivity {
 
         ActivitySecondBinding binding
                 = DataBindingUtil.setContentView(this, R.layout.activity_second);
-        TextView startDate = binding.startDateTv;
-        Button pick = binding.startDateBtn;
-        TextView endDate = binding.endDateTv;
-        Button pick2 = binding.endDateBtn;
+
+        TextView startDate = binding.startDatePicker.lblDate;
+        Button pick = binding.startDatePicker.btnPickDate;
+        TextView endDate = binding.endDatePicker.lblDate;
+        Button pick2 = binding.endDatePicker.btnPickDate;
 
         pick.setOnClickListener(new View.OnClickListener(){
 
