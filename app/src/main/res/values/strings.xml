@@ -2,5 +2,18 @@
     <string name="app_name">Assignment 1</string>
     <string name="minus_btn">-</string>
     <string name="plus_btn">+</string>
-    <string name="howMany_btn">1</string>
+    <string name="howMany_tv">1</string>
+    <string name="question_tv">How many people?</string>
+    <string name="next_btn">Next</string>
+    <string name="startDate_btn">PICK</string>
+    <string name="startDate_tv">Please pick a date</string>
+    <string name="start_lbl">Start Date:</string>
+    <string name="end_lbl">End Date:</string>
+    <string name="endDate_tv">Please pick a date</string>
+    <string name="endDate_btn">PICK</string>
+    <string name="from_label">From:</string>
+    <string name="from_txt" ></string>
+    <string name="to_txt" ></string>
+    <string name="to_lbl">To:</string>
+    <string name="next2_btn">Next</string>
 </resources>
