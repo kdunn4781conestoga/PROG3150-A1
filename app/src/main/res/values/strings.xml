@@ -16,4 +16,6 @@
     <string name="to_txt" ></string>
     <string name="to_lbl">To:</string>
     <string name="next2_btn">Next</string>
+    <string name="adult_lbl">Adult</string>
+    <string name="children_lbl">Children</string>
 </resources>
