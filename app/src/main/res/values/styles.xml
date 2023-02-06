@@ -3,5 +3,13 @@
     <style name="CardView.Custom" parent="CardView">
         <item name="cardCornerRadius">20dp</item>
         <item name="cardForegroundColor">?attr/colorPrimary</item>
+        <item name="cardBackgroundColor">?attr/colorSurface</item>
+    </style>
+
+    <!-- Style for items in location list -->
+    <style name="CardView.Custom.LocationItem" parent="CardView.Custom">
+        <item name="cardBackgroundColor">@color/location_card_color</item>
+        <item name="cardForegroundColor">?colorOnSecondary</item>
+        <item name="cardElevation">5dp</item>
     </style>
 </resources>

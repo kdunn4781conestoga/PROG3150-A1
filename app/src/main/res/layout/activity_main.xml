@@ -81,7 +81,7 @@
             android:layout_columnWeight="0.1"
 
             android:layout_gravity="center"
-            android:text="@string/from_lbl"
+            android:text="@string/from_label"
             android:textColor="#0E0E0E"
             android:textSize="20sp"
             android:textStyle="bold" />
