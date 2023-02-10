@@ -5,9 +5,12 @@ import androidx.databinding.DataBindingUtil;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 
+import ca.kdunn4781.assignment1.MainActivity;
 import ca.kdunn4781.assignment1.R;
 import ca.kdunn4781.assignment1.databinding.ActivityLocationBinding;
 
@@ -16,9 +19,12 @@ import ca.kdunn4781.assignment1.databinding.ActivityLocationBinding;
  */
 public class LocationActivity extends AppCompatActivity {
 
+    Bundle extras;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle(R.string.location_activity);
 
         ActivityLocationBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_location);
 
@@ -28,7 +34,7 @@ public class LocationActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         if (intent != null) {
-            Bundle extras = intent.getExtras();
+            extras = intent.getExtras();
 
             // add locations that were selected in the first activity
             Location startLocation = new Location(extras.getString("startLocation", ""), LocalDateTime.now());
@@ -37,5 +43,21 @@ public class LocationActivity extends AppCompatActivity {
             locationListAdapter.addLocation(0, startLocation);
             locationListAdapter.addLocation(1, endLocation);
         }
+
+        binding.nextBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent  = new Intent(LocationActivity.this, MainActivity.class); // change MainActivity to last activity
+                if (extras != null)
+                {
+                    intent.putExtras(extras);
+                }
+
+                // add all locations
+                intent.putExtra("locations", locationListAdapter.getLocations().toArray());
+
+                startActivity(intent);
+            }
+        });
     }
 }
