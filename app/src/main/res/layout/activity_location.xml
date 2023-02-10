@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".location.LocationActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -13,11 +13,25 @@
         <ListView android:id="@+id/listLocations"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_above="@id/next_btn"
             tools:listitem="@layout/location_item"
             android:clickable="false"
             android:divider="@null"
             android:listSelector="@android:color/transparent"/>
 
-    </LinearLayout>
+        <Button
+            android:id="@+id/next_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
+            android:text="@string/next_btn"
+            android:textColor="#F1EAEA"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
 
 </layout>

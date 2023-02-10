@@ -73,6 +73,7 @@ public class LocationListAdapter extends BaseAdapter {
 
                 Duration duration = Duration.ofMinutes((long)(50 * 0.9));
                 prev.setTimeToTravel(duration);
+                prev.setCostToLocation(50);
 
                 location.setDate(prev.getDate().plusMinutes(duration.toMinutes()));
             }
@@ -173,7 +174,9 @@ public class LocationListAdapter extends BaseAdapter {
             if (nextLocation != null) {
                 // shows the next layout and updates the text
                 binding.nextLayout.setVisibility(View.VISIBLE);
+                binding.travelDistanceText.setText(context.getString(R.string.kilometers, currentLocation.getDistanceToTravel()));
                 binding.travelTimeText.setText(context.getString(R.string.minutes, currentLocation.getTimeToTravel().toMinutes()));
+                binding.estimatedCostText.setText(context.getString(R.string.cost, currentLocation.getCostToLocation()));
             } else {
                 // hides the next layout (used for when updating existing items)
                 binding.nextLayout.setVisibility(View.GONE);
@@ -181,5 +184,12 @@ public class LocationListAdapter extends BaseAdapter {
         }
 
         return convertView;
+    }
+
+    //////////////////// GETTERS AND SETTERS ///////////////////////////
+
+
+    public List<Location> getLocations() {
+        return locations;
     }
 }

@@ -19,6 +19,17 @@
     <string name="dash">-</string>
     <string name="select_location">Select Location</string>
     <string name="minutes">%02d minutes</string>
+    <string name="depart_lbl">Departure Date</string>
+    <string name="people_amount_lbl">Select amount of people going on trip</string>
+    <string name="car">Car</string>
+    <string name="travel_type_lbl">Select Travel Type</string>
+    <string name="plane">Plane</string>
+    <string name="bus">Bus</string>
+    <string name="walking">Walking</string>
+    <string name="main_activity">Input Travel Information</string>
+    <string name="location_activity">List of Locations</string>
+    <string name="kilometers">%.2f kms</string>
+    <string name="cost">$%.2f</string>
     <string-array name="locations">
         <item>Stratford</item>
         <item>Cambridge</item>
