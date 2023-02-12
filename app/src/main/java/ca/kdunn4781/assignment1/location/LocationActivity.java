@@ -8,9 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 
-import ca.kdunn4781.assignment1.MainActivity;
+import ca.kdunn4781.assignment1.output.OutputActivity;
 import ca.kdunn4781.assignment1.R;
 import ca.kdunn4781.assignment1.databinding.ActivityLocationBinding;
 
@@ -47,7 +46,7 @@ public class LocationActivity extends AppCompatActivity {
         binding.nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent  = new Intent(LocationActivity.this, MainActivity.class); // change MainActivity to last activity
+                Intent intent  = new Intent(LocationActivity.this, OutputActivity.class); // change MainActivity to last activity
                 if (extras != null)
                 {
                     intent.putExtras(extras);

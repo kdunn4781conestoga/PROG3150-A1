@@ -30,6 +30,8 @@
     <string name="location_activity">List of Locations</string>
     <string name="kilometers">%.2f kms</string>
     <string name="cost">$%.2f</string>
+    <string name="resetButton">reset</string>
+    <string name="output_activity">Trip Summary</string>
     <string-array name="locations">
         <item>Stratford</item>
         <item>Cambridge</item>
