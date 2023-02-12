@@ -6,17 +6,19 @@ import androidx.databinding.DataBindingUtil;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import ca.kdunn4781.assignment1.R;
 import ca.kdunn4781.assignment1.databinding.ActivityOutputBinding;
 import ca.kdunn4781.assignment1.MainActivity;
 import ca.kdunn4781.assignment1.location.Location;
+
+/**
+ * This activity shows the output of the calculations
+ */
 
 public class OutputActivity extends AppCompatActivity {
 
