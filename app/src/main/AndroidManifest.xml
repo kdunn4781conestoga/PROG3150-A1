@@ -39,12 +39,14 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="false">
+            android:exported="false"/>
+        <activity
+            android:name=".output.OutputActivity"
+            android:exported="false"/>
 
             <!-- <meta-data -->
             <!-- android:name="android.app.lib_name" -->
             <!-- android:value="" /> -->
-        </activity>
     </application>
 
 </manifest>
