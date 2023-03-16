@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ShowSavedTrips">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/tvDBTrips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            tools:layout_editor_absoluteX="204dp"
+            tools:layout_editor_absoluteY="100dp"
+            android:layout_marginBottom="150dp"/>
+
+        <EditText
+            android:id="@+id/txtTrip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="25dp"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="Trip to be deleted"
+            android:inputType="textPersonName"
+            android:minHeight="48dp"
+            tools:layout_editor_absoluteX="64dp"
+            tools:layout_editor_absoluteY="460dp" />
+
+        <Button
+            android:id="@+id/btnDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btnDelete"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_margin="25dp"
+            android:layout_marginBottom="25dp"/>
+
+
+        <Button
+        android:id="@+id/btbBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btnBack"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="95dp"
+        tools:layout_editor_absoluteY="312dp" />
+
+
+</LinearLayout>
+
+    </layout>
