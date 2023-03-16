@@ -1,4 +1,5 @@
 package ca.kdunn4781.assignment1;
+import ca.kdunn4781.assignment1.databinding.ActivityMainBinding;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -20,6 +21,7 @@ public class WelcomeScreen extends AppCompatActivity {
 
 //    ActivityMainBinding binding
 //            = DataBindingUtil.setContentView(this, R.layout.welcome_screen);
+
    load=findViewById(R.id.btnLoad);
    create= findViewById(R.id.btnCreate);
 
@@ -36,7 +38,7 @@ public class WelcomeScreen extends AppCompatActivity {
         load.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Intent main = new Intent(WelcomeScreen.this,MainActivity.class);
+            Intent main = new Intent(WelcomeScreen.this,ShowSavedTrips.class);
             startActivity(main);
         }
     });

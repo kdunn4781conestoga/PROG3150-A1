@@ -35,6 +35,9 @@
     <string name="btnLoad">Load saved trips</string>
     <string name="btnCreate">New trip</string>
     <string name="tvWelcome">Welcome to Trip Planner</string>
+    <string name="btnBack">BACK</string>
+    <string name="btnDelete">DELETE</string>
+    <string name="txtTrip">Trip to be deleted</string>
     <string-array name="locations">
         <item>Stratford</item>
         <item>Cambridge</item>
