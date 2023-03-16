@@ -32,6 +32,9 @@
     <string name="cost">$%.2f</string>
     <string name="resetButton">reset</string>
     <string name="output_activity">Trip Summary</string>
+    <string name="btnLoad">Load saved trips</string>
+    <string name="btnCreate">New trip</string>
+    <string name="tvWelcome">Welcome to Trip Planner</string>
     <string-array name="locations">
         <item>Stratford</item>
         <item>Cambridge</item>
