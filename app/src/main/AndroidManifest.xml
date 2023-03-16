@@ -61,9 +61,12 @@
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
-        </activity> <!-- <activity -->
-        <!-- android:name=".output.OutputActivity" -->
-        <!-- android:exported="false" /> -->
+        </activity>
+
+         <activity
+         android:name=".output.OutputActivity"
+         android:exported="false" />
+
         <activity
             android:name=".location.LocationActivity"
             android:exported="false" />
@@ -71,9 +74,9 @@
             android:name=".MainActivity"
             android:exported="false">
 
-            <!-- <meta-data -->
-            <!-- android:name="android.app.lib_name" -->
-            <!-- android:value="" /> -->
+             <meta-data
+             android:name="android.app.lib_name"
+             android:value="" />
         </activity>
     </application>
 
