@@ -13,14 +13,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.List;
 
 import ca.kdunn4781.assignment1.MainActivity;
+import ca.kdunn4781.assignment1.NewTripFragment;
 import ca.kdunn4781.assignment1.R;
 import ca.kdunn4781.assignment1.databinding.FragmentModifyLocationsBinding;
 import ca.kdunn4781.assignment1.output.OutputFragment;
 import ca.kdunn4781.assignment1.trip.OnTripPointClickListener;
+import ca.kdunn4781.assignment1.trip.Trip;
 import ca.kdunn4781.assignment1.trip.TripPointListAdapter;
 import ca.kdunn4781.assignment1.trip.TripViewModel;
 
@@ -63,11 +66,6 @@ public class ModifyLocationFragment extends Fragment implements OnTripPointClick
         );
         binding.listLocations.setAdapter(locationListAdapter);
 
-        tripViewModel.getTripLiveData().observe(requireActivity(), travel -> {
-            if (travel != null && travel.getTripPoints() != null)
-                locationListAdapter.setList(travel.getTripPoints());
-        });
-
         binding.nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,9 +73,25 @@ public class ModifyLocationFragment extends Fragment implements OnTripPointClick
             }
         });
 
-        if (getArguments() != null && getArguments().containsKey("tripId"))
-        {
-            tripViewModel.getTripById(getArguments().getInt("tripId"));
+        if (getArguments() != null && getArguments().containsKey("tripId")) {
+            tripViewModel.getTripById(getArguments().getInt("tripId")).observe(requireActivity(), new Observer<Trip>() {
+                @Override
+                public void onChanged(Trip trip) {
+                    if (trip != null && trip.getTripPoints() != null) {
+                        locationListAdapter.setList(trip.getTripPoints());
+                    }
+                }
+            });
+        } else {
+            new AlertDialog.Builder(requireActivity())
+                    .setTitle("Error")
+                    .setMessage("Failed to load locations. Returning to previous screen.")
+                    .setOnDismissListener((dialog) -> {
+                        dialog.dismiss();
+
+                        ((MainActivity) requireActivity()).switchToScreen(NewTripFragment.class, new Bundle());
+                    })
+                    .show();
         }
     }
     @Override

@@ -48,6 +48,16 @@ public class NewTripFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        tripViewModel = new ViewModelProvider(this).get(TripViewModel.class);
+
+        locationViewModel = new ViewModelProvider(this).get(LocationViewModel.class);
+        locationViewModel.loadLocations().observe(requireActivity(), locations -> {
+            if (locations != null && !locations.isEmpty()) { // database items
+                adapter.clear();
+                adapter.addAll(locations);
+            }
+        });
+
         // better implementation of adding click events for the counters
         assignCounters(binding.adultCount);
         assignCounters(binding.childrenCount);
@@ -69,14 +79,21 @@ public class NewTripFragment extends Fragment {
         binding.nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tripViewModel.createTravel(
+                tripViewModel.createTrip(
                         "My Travel",
                         null,
                         Integer.parseInt(binding.adultCount.howManyTv.getText().toString()),
                         Integer.parseInt(binding.childrenCount.howManyTv.getText().toString()),
                         adapter.getItem(binding.fromLocationSpinner.getSelectedItemPosition()),
                         adapter.getItem(binding.toLocationSpinner.getSelectedItemPosition())
-                );
+                ).observe(requireActivity(), travel -> {
+                    if (travel != null) {
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("tripId", travel.getId());
+
+                        ((MainActivity) requireActivity()).switchToScreen(ModifyLocationFragment.class, bundle);
+                    }
+                });
             }
         });
 
@@ -87,23 +104,7 @@ public class NewTripFragment extends Fragment {
             }
         });
 
-        locationViewModel = new ViewModelProvider(this).get(LocationViewModel.class);
-        locationViewModel.loadLocations().observe(requireActivity(), locations -> {
-            if (locations != null && !locations.isEmpty()) { // database items
-                adapter.clear();
-                adapter.addAll(locations);
-            }
-        });
 
-        tripViewModel = new ViewModelProvider(this).get(TripViewModel.class);
-        tripViewModel.getTripLiveData().observe(requireActivity(), travel -> {
-            if (travel != null) {
-                Bundle bundle = new Bundle();
-                bundle.putInt("tripId", travel.getId());
-
-                ((MainActivity) requireActivity()).switchToScreen(ModifyLocationFragment.class, bundle);
-            }
-        });
     }
 
     private void setDate(TextView x) {

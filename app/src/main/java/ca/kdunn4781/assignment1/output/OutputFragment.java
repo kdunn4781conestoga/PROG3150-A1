@@ -48,21 +48,6 @@ public class OutputFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         tripViewModel = new ViewModelProvider(this).get(TripViewModel.class);
-        tripViewModel.getTripLiveData().observe(requireActivity(), trip -> {
-            if (trip != null) {
-                int tripCount = trip.getTripPoints().size();
-                int cost = (tripCount - 1) * 50;
-                int totalCount = trip.getNumOfAdults() + trip.getNumOfChildren();
-                int totalTravelTime = (tripCount - 1) * 45;
-                int totalDistanceTraveled = (tripCount - 1) * 50;
-
-                binding.pricePerPerson.setText("Cost Per Person: $" + String.valueOf(cost/totalCount));
-                binding.totalCost.setText("Total Cost: $" + String.valueOf(cost));
-                binding.totalDistanceTraveled.setText("Total Distance Traveled: " + String.valueOf(totalDistanceTraveled) + " km");
-
-                binding.totalTimeTraveled.setText("Total Time Traveled: " + String.valueOf(totalTravelTime) + " minutes");
-            }
-        });
 
         binding.resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,14 +62,23 @@ public class OutputFragment extends Fragment {
 
             }
         });
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
 
         if (getArguments() != null && getArguments().containsKey("tripId")) {
-            tripViewModel.getTripById(getArguments().getInt("tripId"));
+            tripViewModel.getTripById(getArguments().getInt("tripId")).observe(requireActivity(), trip -> {
+                if (trip != null) {
+                    int tripCount = trip.getTripPoints().size();
+                    int cost = (tripCount - 1) * 50;
+                    int totalCount = trip.getNumOfAdults() + trip.getNumOfChildren();
+                    int totalTravelTime = (tripCount - 1) * 45;
+                    int totalDistanceTraveled = (tripCount - 1) * 50;
+
+                    binding.pricePerPerson.setText("Cost Per Person: $" + String.valueOf(cost/totalCount));
+                    binding.totalCost.setText("Total Cost: $" + String.valueOf(cost));
+                    binding.totalDistanceTraveled.setText("Total Distance Traveled: " + String.valueOf(totalDistanceTraveled) + " km");
+
+                    binding.totalTimeTraveled.setText("Total Time Traveled: " + String.valueOf(totalTravelTime) + " minutes");
+                }
+            });
         }
     }
 }
