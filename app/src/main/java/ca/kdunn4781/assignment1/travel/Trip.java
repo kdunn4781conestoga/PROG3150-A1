@@ -15,7 +15,7 @@ import ca.kdunn4781.assignment1.location.Location;
 
 @Entity(tableName = "trips")
 public class Trip {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     public int id;
 
     @NonNull
@@ -67,6 +67,7 @@ public class Trip {
     }
 
     public void addTravelPoint(int index, TripPoint point) {
+        point.travelId = id;
         point.setIndex(index);
 
         travelPoints.add(index, point);

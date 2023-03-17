@@ -37,11 +37,13 @@ public class TripViewModel extends AndroidViewModel {
     public void createTravel(String name, @Nullable String description, int numOfAdults, int numOfChildren, Location startLocation, Location endLocation) {
         AsyncTask.execute(() -> {
             Trip trip = new Trip(name, description, startLocation, endLocation);
-            trip.id = 0; // TODO change later
             trip.setNumOfAdults(numOfAdults);
             trip.setNumOfChildren(numOfChildren);
 
             trip.id = (int) tripDAO.insertTrip(trip);
+            for (TripPoint p : trip.getTripPoints()) {
+                p.travelId = trip.id;
+            }
 
             TripPoint[] points = trip.getTripPoints().toArray(new TripPoint[0]);
             tripDAO.insertPoints(points);
@@ -80,10 +82,10 @@ public class TripViewModel extends AndroidViewModel {
 
             travel.addTravelPoint(index, start);
 
-            tripDAO.updatePoints(travel.getTripPoints().toArray(new TripPoint[0]));
-
             start.id = (int)tripDAO.insertPoints(start)[0];
             if (start.id == -1) return;
+
+            tripDAO.updatePoints(travel.getTripPoints().toArray(new TripPoint[0]));
 
             tripDAO.updateTrip(travel);
 
