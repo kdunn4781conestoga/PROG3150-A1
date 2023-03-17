@@ -1,20 +1,13 @@
 package ca.kdunn4781.assignment1.output;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import ca.kdunn4781.assignment1.R;
 import ca.kdunn4781.assignment1.databinding.ActivityOutputBinding;
 import ca.kdunn4781.assignment1.MainActivity;
@@ -57,7 +50,6 @@ public class OutputActivity extends AppCompatActivity {
                 }
             }
         });
-
 
         Bundle extras = getIntent().getExtras();
         if (extras != null && extras.containsKey("tripId")) {
