@@ -2,8 +2,6 @@ package ca.kdunn4781.assignment1.output;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-
-
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -11,10 +9,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import ca.kdunn4781.assignment1.Connection;
 import ca.kdunn4781.assignment1.Network;
 import ca.kdunn4781.assignment1.R;
