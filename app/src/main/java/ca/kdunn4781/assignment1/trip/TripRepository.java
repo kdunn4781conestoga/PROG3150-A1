@@ -25,6 +25,17 @@ public class TripRepository {
         this.tripDAO = appDatabase.tripDAO();
     }
 
+    public LiveData<List<Trip>> loadTrips() {
+        MutableLiveData<List<Trip>> tripsLiveData = new MutableLiveData<>();
+        AsyncTask.execute(() -> {
+            List<Trip> trips = tripDAO.getAllTrips();
+
+            tripsLiveData.postValue(trips);
+        });
+
+        return tripsLiveData;
+    }
+
     public LiveData<Trip> createTrip(String name, @Nullable String description, int numOfAdults, int numOfChildren, Location startLocation, Location endLocation) {
         AsyncTask.execute(() -> {
             Trip trip = new Trip(name, description, startLocation, endLocation);

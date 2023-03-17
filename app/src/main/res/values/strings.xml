@@ -40,6 +40,7 @@
     <string name="txtTrip">Trip to be deleted</string>
     <string name="btnSave">SAVE</string>
     <string name="btnShop">SHOP ON AMAZON.CA</string>
+    <string name="load">Load</string>
     <string-array name="locations">
         <item>Stratford</item>
         <item>Cambridge</item>

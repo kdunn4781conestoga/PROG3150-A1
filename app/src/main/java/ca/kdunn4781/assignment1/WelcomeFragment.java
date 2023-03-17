@@ -1,35 +1,30 @@
 package ca.kdunn4781.assignment1;
-import ca.kdunn4781.assignment1.databinding.ActivityMainBinding;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
-import java.util.Objects;
+import ca.kdunn4781.assignment1.databinding.FragmentWelcomeBinding;
+import ca.kdunn4781.assignment1.trip.NewTripFragment;
+import ca.kdunn4781.assignment1.trip.SavedTripsFragment;
 
-import ca.kdunn4781.assignment1.databinding.ActivityMainBinding;
-import ca.kdunn4781.assignment1.databinding.WelcomeScreenBinding;
+public class WelcomeFragment extends Fragment {
+    FragmentWelcomeBinding binding = null;
 
-public class WelcomeScreen extends Fragment {
-    WelcomeScreenBinding binding = null;
-
-    public WelcomeScreen() {
+    public WelcomeFragment() {
         // Required empty public constructor
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.welcome_screen, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_welcome, container, false);
         return binding.getRoot();
     }
 
@@ -47,7 +42,7 @@ public class WelcomeScreen extends Fragment {
         binding.btnLoad.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity) requireActivity()).switchToScreen(ShowSavedTrips.class, savedInstanceState);
+                ((MainActivity) requireActivity()).switchToScreen(SavedTripsFragment.class, savedInstanceState);
             }
         });
     }
