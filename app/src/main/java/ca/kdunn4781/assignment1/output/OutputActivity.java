@@ -74,9 +74,8 @@ public class OutputActivity extends AppCompatActivity {
 
         shop.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent myWebLink = new Intent(android.content.Intent.ACTION_VIEW);
-                myWebLink.setData(Uri.parse("http://www.amazon.ca"));
-                startActivity(myWebLink);
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://amazon.ca")));
+
             }
         });
     }
