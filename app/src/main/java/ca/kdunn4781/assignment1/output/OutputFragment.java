@@ -14,10 +14,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+
+import ca.kdunn4781.assignment1.Shop;
+import ca.kdunn4781.assignment1.output.Shop2;
+import ca.kdunn4781.assignment1.output.OutputFragment;
+
 import ca.kdunn4781.assignment1.trip.NewTripFragment;
 import ca.kdunn4781.assignment1.R;
 import ca.kdunn4781.assignment1.MainActivity;
-import ca.kdunn4781.assignment1.Shop;
 import ca.kdunn4781.assignment1.databinding.FragmentOutputBinding;
 import ca.kdunn4781.assignment1.trip.NewTripViewModel;
 
@@ -54,8 +58,8 @@ public class OutputFragment extends Fragment {
 
         binding.btnShop.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent shop =new Intent(this, Shop.class);
-                startActivity(shop);
+                Intent intent_one = new Intent(requireActivity(), Shop.class);
+                startActivity(intent_one);
             }
         });
 

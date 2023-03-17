@@ -17,7 +17,14 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".Shop"
+            android:name=".Shop2"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name="ca.kdunn4781.assignment1.Shop"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

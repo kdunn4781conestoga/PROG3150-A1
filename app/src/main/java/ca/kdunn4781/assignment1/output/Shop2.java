@@ -1,4 +1,5 @@
-package ca.kdunn4781.assignment1;
+package ca.kdunn4781.assignment1.output;
+import ca.kdunn4781.assignment1.R;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,7 +12,7 @@ import android.widget.ProgressBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 
-public class Shop extends AppCompatActivity {
+public class Shop2 extends AppCompatActivity {
     private WebView webForShop = null;
     private ProgressBar progressBarForWeb = null;
 
