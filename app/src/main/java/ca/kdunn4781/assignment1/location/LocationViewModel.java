@@ -14,25 +14,16 @@ import java.util.List;
 import ca.kdunn4781.assignment1.database.AppDatabase;
 
 public class LocationViewModel extends AndroidViewModel {
-    private AppDatabase appDatabase;
-    private final LiveData<List<Location>> locationListLiveData;
+    private final LocationRepository locationRepository;
 
     public LocationViewModel(@NonNull Application application)
     {
         super(application);
-        appDatabase = AppDatabase.getAppDatabase(application);
-        locationListLiveData = appDatabase.locationDAO().loadAllLocations();
+
+        this.locationRepository = new LocationRepository(application);
     }
 
-    public LiveData<List<Location>> getLocationListLiveData() {
-        return locationListLiveData;
-    }
-
-    public void populateInitialLocations(String... locations) {
-        AsyncTask.execute(() -> {
-            for (String location : locations) {
-                appDatabase.locationDAO().insertLocations(new Location(location));
-            }
-        });
+    public LiveData<List<Location>> loadLocations() {
+        return locationRepository.loadLocations();
     }
 }
