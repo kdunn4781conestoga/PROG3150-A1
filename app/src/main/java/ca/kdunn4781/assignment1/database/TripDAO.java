@@ -5,6 +5,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Transaction;
 import androidx.room.Update;
 
 import java.util.List;
@@ -14,6 +15,9 @@ import ca.kdunn4781.assignment1.trip.TripPoint;
 
 @Dao
 public interface TripDAO {
+
+    @Query("SELECT * FROM trips")
+    List<Trip> getAllTrips();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insertTrip(Trip travel);

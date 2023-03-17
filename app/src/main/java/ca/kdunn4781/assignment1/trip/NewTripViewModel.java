@@ -7,15 +7,22 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import java.util.List;
+
 import ca.kdunn4781.assignment1.location.Location;
+import ca.kdunn4781.assignment1.location.LocationRepository;
+import ca.kdunn4781.assignment1.trip.Trip;
+import ca.kdunn4781.assignment1.trip.TripRepository;
 
-public class TripViewModel extends AndroidViewModel {
+public class NewTripViewModel extends AndroidViewModel {
 
-    private TripRepository tripRepository;
+    private final LocationRepository locationRepository;
+    private final TripRepository tripRepository;
 
-    public TripViewModel(@NonNull Application application)
+    public NewTripViewModel(@NonNull Application application)
     {
         super(application);
+        this.locationRepository = new LocationRepository(application);
         this.tripRepository = new TripRepository(application);
     }
 
@@ -24,13 +31,7 @@ public class TripViewModel extends AndroidViewModel {
         return tripRepository.createTrip(name, description, numOfAdults, numOfChildren, startLocation, endLocation);
     }
 
-    public LiveData<Trip> getTripById(int id) { return tripRepository.getTripById(id); }
-
-    public void addTripPoint(int index, Location location) {
-        tripRepository.addTripPoint(index, location);
-    }
-
-    public void removeTripPoint(int index) {
-        tripRepository.removeTripPoint(index);
+    public LiveData<List<Location>> loadLocations() {
+        return locationRepository.loadLocations();
     }
 }

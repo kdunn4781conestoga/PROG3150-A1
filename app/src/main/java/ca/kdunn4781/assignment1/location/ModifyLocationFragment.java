@@ -13,19 +13,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.util.List;
 
 import ca.kdunn4781.assignment1.MainActivity;
-import ca.kdunn4781.assignment1.NewTripFragment;
 import ca.kdunn4781.assignment1.R;
 import ca.kdunn4781.assignment1.databinding.FragmentModifyLocationsBinding;
 import ca.kdunn4781.assignment1.output.OutputFragment;
+import ca.kdunn4781.assignment1.trip.NewTripFragment;
 import ca.kdunn4781.assignment1.trip.OnTripPointClickListener;
 import ca.kdunn4781.assignment1.trip.Trip;
 import ca.kdunn4781.assignment1.trip.TripPointListAdapter;
-import ca.kdunn4781.assignment1.trip.TripViewModel;
 
 /**
  * This activity shows a list of locations that the user can add or remove
@@ -33,8 +31,7 @@ import ca.kdunn4781.assignment1.trip.TripViewModel;
 public class ModifyLocationFragment extends Fragment implements OnTripPointClickListener {
     private FragmentModifyLocationsBinding binding = null;
 
-    TripViewModel tripViewModel;
-    LocationViewModel locationViewModel;
+    ModifyLocationViewModel modifyLocationViewModel;
 
     TripPointListAdapter locationListAdapter;
 
@@ -55,8 +52,7 @@ public class ModifyLocationFragment extends Fragment implements OnTripPointClick
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        tripViewModel = new ViewModelProvider(this).get(TripViewModel.class);
-        locationViewModel = new ViewModelProvider(this).get(LocationViewModel.class);
+        modifyLocationViewModel = new ViewModelProvider(this).get(ModifyLocationViewModel.class);
 
         // binds adapter to list
         locationListAdapter = new TripPointListAdapter(
@@ -74,7 +70,7 @@ public class ModifyLocationFragment extends Fragment implements OnTripPointClick
         });
 
         if (getArguments() != null && getArguments().containsKey("tripId")) {
-            tripViewModel.getTripById(getArguments().getInt("tripId")).observe(requireActivity(), new Observer<Trip>() {
+            modifyLocationViewModel.getTripById(getArguments().getInt("tripId")).observe(requireActivity(), new Observer<Trip>() {
                 @Override
                 public void onChanged(Trip trip) {
                     if (trip != null && trip.getTripPoints() != null) {
@@ -104,7 +100,7 @@ public class ModifyLocationFragment extends Fragment implements OnTripPointClick
 
         loadingLocationsDialog.show();
 
-        locationViewModel.loadLocations().observe(this, new Observer<List<Location>>() {
+        modifyLocationViewModel.loadLocations().observe(this, new Observer<List<Location>>() {
             @Override
             public void onChanged(List<Location> locations) {
                 loadingLocationsDialog.dismiss();
@@ -117,19 +113,19 @@ public class ModifyLocationFragment extends Fragment implements OnTripPointClick
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
 
-                        tripViewModel.addTripPoint(position + 1, locations.get(which));
+                        modifyLocationViewModel.addTripPoint(position + 1, locations.get(which));
                     }
                 });
                 addLocationAlert.show();
 
-                locationViewModel.getLocations().removeObserver(this);
+                modifyLocationViewModel.getLocations().removeObserver(this);
             }
         });
     }
 
     @Override
     public void onRemovePointClickListener(View view1, int position) {
-        tripViewModel.removeTripPoint(position);
+        modifyLocationViewModel.removeTripPoint(position);
     }
 
     @Override

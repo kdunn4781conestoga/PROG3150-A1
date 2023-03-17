@@ -1,4 +1,4 @@
-package ca.kdunn4781.assignment1;
+package ca.kdunn4781.assignment1.trip;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
@@ -18,18 +18,18 @@ import android.widget.TextView;
 
 import java.util.Calendar;
 
+import ca.kdunn4781.assignment1.MainActivity;
+import ca.kdunn4781.assignment1.R;
+import ca.kdunn4781.assignment1.WelcomeFragment;
 import ca.kdunn4781.assignment1.databinding.FragmentNewTripBinding;
 import ca.kdunn4781.assignment1.databinding.PeopleCountBinding;
 import ca.kdunn4781.assignment1.location.Location;
 import ca.kdunn4781.assignment1.location.ModifyLocationFragment;
-import ca.kdunn4781.assignment1.location.LocationViewModel;
-import ca.kdunn4781.assignment1.trip.TripViewModel;
 
 public class NewTripFragment extends Fragment {
     private FragmentNewTripBinding binding;
 
-    private LocationViewModel locationViewModel;
-    private TripViewModel tripViewModel;
+    private NewTripViewModel newTripViewModel;
 
     private ArrayAdapter<Location> adapter;
 
@@ -48,10 +48,8 @@ public class NewTripFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        tripViewModel = new ViewModelProvider(this).get(TripViewModel.class);
-
-        locationViewModel = new ViewModelProvider(this).get(LocationViewModel.class);
-        locationViewModel.loadLocations().observe(requireActivity(), locations -> {
+        newTripViewModel = new ViewModelProvider(this).get(NewTripViewModel.class);
+        newTripViewModel.loadLocations().observe(requireActivity(), locations -> {
             if (locations != null && !locations.isEmpty()) { // database items
                 adapter.clear();
                 adapter.addAll(locations);
@@ -79,7 +77,7 @@ public class NewTripFragment extends Fragment {
         binding.nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tripViewModel.createTrip(
+                newTripViewModel.createTrip(
                         "My Travel",
                         null,
                         Integer.parseInt(binding.adultCount.howManyTv.getText().toString()),
@@ -100,7 +98,7 @@ public class NewTripFragment extends Fragment {
         binding.backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity) requireActivity()).switchToScreen(WelcomeScreen.class, new Bundle());
+                ((MainActivity) requireActivity()).switchToScreen(WelcomeFragment.class, new Bundle());
             }
         });
 

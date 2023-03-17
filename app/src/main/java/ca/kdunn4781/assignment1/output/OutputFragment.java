@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 
@@ -15,13 +14,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import ca.kdunn4781.assignment1.NewTripFragment;
+import ca.kdunn4781.assignment1.trip.NewTripFragment;
 import ca.kdunn4781.assignment1.R;
-import ca.kdunn4781.assignment1.WelcomeScreen;
 import ca.kdunn4781.assignment1.MainActivity;
 import ca.kdunn4781.assignment1.databinding.FragmentOutputBinding;
-import ca.kdunn4781.assignment1.trip.Trip;
-import ca.kdunn4781.assignment1.trip.TripViewModel;
+import ca.kdunn4781.assignment1.trip.NewTripViewModel;
 
 /**
  * This activity shows the output of the calculations
@@ -29,8 +26,6 @@ import ca.kdunn4781.assignment1.trip.TripViewModel;
 
 public class OutputFragment extends Fragment {
     private FragmentOutputBinding binding = null;
-
-    private TripViewModel tripViewModel;
 
     public OutputFragment() {
         // Required empty public constructor
@@ -47,7 +42,7 @@ public class OutputFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        tripViewModel = new ViewModelProvider(this).get(TripViewModel.class);
+        OutputViewModel outputViewModel = new ViewModelProvider(this).get(OutputViewModel.class);
 
         binding.resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,7 +59,7 @@ public class OutputFragment extends Fragment {
         });
 
         if (getArguments() != null && getArguments().containsKey("tripId")) {
-            tripViewModel.getTripById(getArguments().getInt("tripId")).observe(requireActivity(), trip -> {
+            outputViewModel.getTripById(getArguments().getInt("tripId")).observe(requireActivity(), trip -> {
                 if (trip != null) {
                     int tripCount = trip.getTripPoints().size();
                     int cost = (tripCount - 1) * 50;
