@@ -1,13 +1,10 @@
 package ca.kdunn4781.assignment1;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
-
 
 public class Wifi extends Activity {
 
