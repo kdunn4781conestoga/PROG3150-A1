@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import ca.kdunn4781.assignment1.trip.NewTripFragment;
 import ca.kdunn4781.assignment1.R;
 import ca.kdunn4781.assignment1.MainActivity;
+import ca.kdunn4781.assignment1.Shop;
 import ca.kdunn4781.assignment1.databinding.FragmentOutputBinding;
 import ca.kdunn4781.assignment1.trip.NewTripViewModel;
 
@@ -53,8 +54,8 @@ public class OutputFragment extends Fragment {
 
         binding.btnShop.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://amazon.ca")));
-
+                Intent shop =new Intent(this, Shop.class);
+                startActivity(shop);
             }
         });
 
