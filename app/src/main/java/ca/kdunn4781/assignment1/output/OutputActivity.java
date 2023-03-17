@@ -7,8 +7,10 @@ import androidx.lifecycle.ViewModelProvider;
 
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +37,7 @@ public class OutputActivity extends AppCompatActivity {
 
         ActivityOutputBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_output);
 
+        Button shop = binding.btnShop;
         tripViewModel = new ViewModelProvider(this).get(TripViewModel.class);
         tripViewModel.getTripLiveData().observe(this, new Observer<Trip>() {
             @Override
@@ -66,6 +69,14 @@ public class OutputActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(OutputActivity.this, MainActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        shop.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent myWebLink = new Intent(android.content.Intent.ACTION_VIEW);
+                myWebLink.setData(Uri.parse("http://www.amazon.ca"));
+                startActivity(myWebLink);
             }
         });
     }
