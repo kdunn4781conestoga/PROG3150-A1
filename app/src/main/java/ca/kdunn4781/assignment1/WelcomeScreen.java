@@ -1,46 +1,54 @@
 package ca.kdunn4781.assignment1;
 import ca.kdunn4781.assignment1.databinding.ActivityMainBinding;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 
+import java.util.Objects;
+
 import ca.kdunn4781.assignment1.databinding.ActivityMainBinding;
+import ca.kdunn4781.assignment1.databinding.WelcomeScreenBinding;
 
-public class WelcomeScreen extends AppCompatActivity {
-    Button create;
-    Button load;
+public class WelcomeScreen extends Fragment {
+    WelcomeScreenBinding binding = null;
+
+    public WelcomeScreen() {
+        // Required empty public constructor
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        binding = DataBindingUtil.inflate(inflater, R.layout.welcome_screen, container, false);
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    setContentView(R.layout.welcome_screen);
 
-//    ActivityMainBinding binding
-//            = DataBindingUtil.setContentView(this, R.layout.welcome_screen);
+        binding.btnCreate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((MainActivity) requireActivity()).switchToScreen(NewTripFragment.class, savedInstanceState);
+            }
+        });
 
-   load=findViewById(R.id.btnLoad);
-   create= findViewById(R.id.btnCreate);
-
-
-
-        create.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            Intent main = new Intent(WelcomeScreen.this,MainActivity.class);
-            startActivity(main);
-        }
-    });
-
-        load.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            Intent main = new Intent(WelcomeScreen.this,ShowSavedTrips.class);
-            startActivity(main);
-        }
-    });
-}
+        binding.btnLoad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((MainActivity) requireActivity()).switchToScreen(ShowSavedTrips.class, savedInstanceState);
+            }
+        });
+    }
 }

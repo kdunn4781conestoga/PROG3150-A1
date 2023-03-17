@@ -1,11 +1,9 @@
-package ca.kdunn4781.assignment1.travel;
+package ca.kdunn4781.assignment1.trip;
 
-import android.app.Application;
+import android.content.Context;
 import android.os.AsyncTask;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -17,40 +15,34 @@ import ca.kdunn4781.assignment1.database.AppDatabase;
 import ca.kdunn4781.assignment1.database.TripDAO;
 import ca.kdunn4781.assignment1.location.Location;
 
-public class TripViewModel extends AndroidViewModel {
+public class TripRepository {
     private AppDatabase appDatabase;
     private TripDAO tripDAO;
-    private MutableLiveData<Trip> tripMutableLiveData;
+    private final MutableLiveData<Trip> tripLiveData = new MutableLiveData<>();
 
-    public TripViewModel(@NonNull Application application)
-    {
-        super(application);
-        appDatabase = AppDatabase.getAppDatabase(application);
-        tripDAO = appDatabase.tripDAO();
-        tripMutableLiveData = new MutableLiveData<>(null);
+    public TripRepository(Context context) {
+        this.appDatabase = AppDatabase.getAppDatabase(context);
+        this.tripDAO = appDatabase.tripDAO();
     }
 
-    public LiveData<Trip> getTripLiveData() {
-        return tripMutableLiveData;
-    }
-
-    public void createTravel(String name, @Nullable String description, int numOfAdults, int numOfChildren, Location startLocation, Location endLocation) {
+    public LiveData<Trip> createTrip(String name, @Nullable String description, int numOfAdults, int numOfChildren, Location startLocation, Location endLocation) {
         AsyncTask.execute(() -> {
             Trip trip = new Trip(name, description, startLocation, endLocation);
-            trip.id = 0; // TODO change later
             trip.setNumOfAdults(numOfAdults);
             trip.setNumOfChildren(numOfChildren);
 
-            trip.id = (int) tripDAO.insertTrip(trip);
+            int id = (int) tripDAO.insertTrip(trip);
+            trip.setId(id);
 
-            TripPoint[] points = trip.getTripPoints().toArray(new TripPoint[0]);
-            tripDAO.insertPoints(points);
+            tripDAO.insertPoints(trip.getTripPoints().toArray(new TripPoint[0]));
 
-            tripMutableLiveData.postValue(trip);
+            tripLiveData.postValue(trip);
         });
+
+        return tripLiveData;
     }
 
-    public void getTripById(int id) {
+    public LiveData<Trip> getTripById(int id) {
         AsyncTask.execute(() -> {
             Trip trip = tripDAO.findByTripId(id);
 
@@ -65,18 +57,20 @@ public class TripViewModel extends AndroidViewModel {
                     p.setLocation(location);
             }
 
-            tripMutableLiveData.postValue(trip);
+            tripLiveData.postValue(trip);
         });
+
+        return tripLiveData;
     }
 
     public void addTripPoint(int index, Location location) {
         AsyncTask.execute(() -> {
-            Trip travel = tripMutableLiveData.getValue();
+            Trip travel = tripLiveData.getValue();
             assert travel != null;
             TripPoint start = new TripPoint(
                     index, location, 50
             );
-            start.travelId = travel.id;
+            start.travelId = travel.getId();
 
             travel.addTravelPoint(index, start);
 
@@ -87,13 +81,13 @@ public class TripViewModel extends AndroidViewModel {
 
             tripDAO.updateTrip(travel);
 
-            tripMutableLiveData.postValue(travel);
+            tripLiveData.postValue(travel);
         });
     }
 
     public void removeTripPoint(int index) {
         AsyncTask.execute(() -> {
-            Trip trip = tripMutableLiveData.getValue();
+            Trip trip = tripLiveData.getValue();
             assert trip != null;
 
             TripPoint removedPoint = trip.getPoint(index);
@@ -106,7 +100,7 @@ public class TripViewModel extends AndroidViewModel {
 
             tripDAO.updateTrip(trip);
 
-            tripMutableLiveData.postValue(trip);
+            tripLiveData.postValue(trip);
         });
     }
 }

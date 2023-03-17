@@ -1,4 +1,4 @@
-package ca.kdunn4781.assignment1.travel;
+package ca.kdunn4781.assignment1.trip;
 
 import android.view.View;
 

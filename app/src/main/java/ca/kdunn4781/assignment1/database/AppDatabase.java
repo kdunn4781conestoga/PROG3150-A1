@@ -8,8 +8,8 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
 import ca.kdunn4781.assignment1.location.Location;
-import ca.kdunn4781.assignment1.travel.Trip;
-import ca.kdunn4781.assignment1.travel.TripPoint;
+import ca.kdunn4781.assignment1.trip.Trip;
+import ca.kdunn4781.assignment1.trip.TripPoint;
 
 @Database(entities = {Location.class, Trip.class, TripPoint.class}, version = 1)
 @TypeConverters(Converters.class)

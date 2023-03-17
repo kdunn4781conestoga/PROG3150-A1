@@ -9,8 +9,8 @@ import androidx.room.Update;
 
 import java.util.List;
 
-import ca.kdunn4781.assignment1.travel.Trip;
-import ca.kdunn4781.assignment1.travel.TripPoint;
+import ca.kdunn4781.assignment1.trip.Trip;
+import ca.kdunn4781.assignment1.trip.TripPoint;
 
 @Dao
 public interface TripDAO {
