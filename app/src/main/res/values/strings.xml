@@ -41,6 +41,7 @@
     <string name="btnSave">SAVE</string>
     <string name="btnShop">SHOP ON AMAZON.CA</string>
     <string name="load">Load</string>
+    <string name="tripListItem1">%02d - %s</string>
     <string-array name="locations">
         <item>Stratford</item>
         <item>Cambridge</item>

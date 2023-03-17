@@ -4,68 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".trip.SavedTripsFragment">
 
-    <LinearLayout
+    <RelativeLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
         android:layout_margin="10dp">
 
-        <Spinner
-            android:id="@+id/spinnerTrips"
+        <ListView
+            android:id="@+id/listTrips"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="48dp"/>
-
-        <EditText
-            android:id="@+id/txtTrip"
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:gravity="center"
-            android:inputType="textPersonName"
-            android:minHeight="48dp"
-            tools:visibility="visible"/>
-
-        <GridLayout
-            android:columnCount="2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="10dp">
-
-            <Button
-                android:id="@+id/btnLoad"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_column="0"
-                android:layout_marginEnd="5dp"
-                android:layout_columnWeight="1"
-                android:text="@string/load"
-                android:textSize="20sp"
-                android:textStyle="bold"/>
-
-            <Button
-                android:id="@+id/btnDelete"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_columnWeight="1"
-                android:layout_column="1"
-                android:layout_marginStart="5dp"
-                android:text="@string/btnDelete"
-                android:textSize="20sp"
-                android:textStyle="bold"/>
-
-        </GridLayout>
+            android:layout_height="wrap_content"/>
 
         <Button
             android:id="@+id/btbBack"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
+            android:layout_gravity="bottom"
             android:text="@string/btnBack"
             android:textSize="20sp"
             android:textStyle="bold"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 </layout>
