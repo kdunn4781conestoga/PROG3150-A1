@@ -1,7 +1,6 @@
 package ca.kdunn4781.assignment1;
 
 import android.app.DatePickerDialog;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -24,7 +23,7 @@ import ca.kdunn4781.assignment1.databinding.PeopleCountBinding;
 import ca.kdunn4781.assignment1.location.Location;
 import ca.kdunn4781.assignment1.location.ModifyLocationFragment;
 import ca.kdunn4781.assignment1.location.LocationViewModel;
-import ca.kdunn4781.assignment1.travel.TripViewModel;
+import ca.kdunn4781.assignment1.trip.TripViewModel;
 
 public class NewTripFragment extends Fragment {
     private FragmentNewTripBinding binding;
@@ -81,10 +80,15 @@ public class NewTripFragment extends Fragment {
             }
         });
 
+        binding.backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((MainActivity) requireActivity()).switchToScreen(WelcomeScreen.class, new Bundle());
+            }
+        });
+
         locationViewModel = new ViewModelProvider(this).get(LocationViewModel.class);
-
-        locationViewModel.getLocationListLiveData().observe(requireActivity(), locations -> {
-
+        locationViewModel.loadLocations().observe(requireActivity(), locations -> {
             if (locations != null && !locations.isEmpty()) { // database items
                 adapter.clear();
                 adapter.addAll(locations);
@@ -95,7 +99,7 @@ public class NewTripFragment extends Fragment {
         tripViewModel.getTripLiveData().observe(requireActivity(), travel -> {
             if (travel != null) {
                 Bundle bundle = new Bundle();
-                bundle.putInt("tripId", travel.id);
+                bundle.putInt("tripId", travel.getId());
 
                 ((MainActivity) requireActivity()).switchToScreen(ModifyLocationFragment.class, bundle);
             }

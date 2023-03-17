@@ -18,8 +18,8 @@ import ca.kdunn4781.assignment1.R;
 import ca.kdunn4781.assignment1.WelcomeScreen;
 import ca.kdunn4781.assignment1.MainActivity;
 import ca.kdunn4781.assignment1.databinding.FragmentOutputBinding;
-import ca.kdunn4781.assignment1.travel.Trip;
-import ca.kdunn4781.assignment1.travel.TripViewModel;
+import ca.kdunn4781.assignment1.trip.Trip;
+import ca.kdunn4781.assignment1.trip.TripViewModel;
 
 /**
  * This activity shows the output of the calculations

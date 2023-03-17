@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,21 +20,22 @@ import ca.kdunn4781.assignment1.MainActivity;
 import ca.kdunn4781.assignment1.R;
 import ca.kdunn4781.assignment1.databinding.FragmentModifyLocationsBinding;
 import ca.kdunn4781.assignment1.output.OutputFragment;
-import ca.kdunn4781.assignment1.travel.OnTripPointClickListener;
-import ca.kdunn4781.assignment1.travel.Trip;
-import ca.kdunn4781.assignment1.travel.TripPointListAdapter;
-import ca.kdunn4781.assignment1.travel.TripViewModel;
+import ca.kdunn4781.assignment1.trip.OnTripPointClickListener;
+import ca.kdunn4781.assignment1.trip.TripPointListAdapter;
+import ca.kdunn4781.assignment1.trip.TripViewModel;
 
 /**
  * This activity shows a list of locations that the user can add or remove
  */
-public class ModifyLocationFragment extends Fragment {
+public class ModifyLocationFragment extends Fragment implements OnTripPointClickListener {
     private FragmentModifyLocationsBinding binding = null;
 
     TripViewModel tripViewModel;
     LocationViewModel locationViewModel;
 
     TripPointListAdapter locationListAdapter;
+
+    List<String> locationStrs;
 
     public ModifyLocationFragment() {
         // Required empty public constructor
@@ -55,53 +55,17 @@ public class ModifyLocationFragment extends Fragment {
         tripViewModel = new ViewModelProvider(this).get(TripViewModel.class);
         locationViewModel = new ViewModelProvider(this).get(LocationViewModel.class);
 
-        locationViewModel.getLocationListLiveData().observe(requireActivity(), new Observer<List<Location>>() {
-            @Override
-            public void onChanged(List<Location> locations) {
-                if (locations != null && !locations.isEmpty()) {
-                    // binds adapter to list
-                    locationListAdapter = new TripPointListAdapter(
-                            requireContext(),
-                            getLayoutInflater(),
-                            new OnTripPointClickListener() {
-                                @Override
-                                public void onAddPointClickListener(View view, int position) {
-                                    // shows a dialog for selecting a list of locations
-                                    AlertDialog.Builder b = new AlertDialog.Builder(requireContext());
-                                    b.setTitle("Add Location");
-                                    b.setItems(locations.stream().map(Location::getName).toArray(CharSequence[]::new), new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.dismiss();
+        // binds adapter to list
+        locationListAdapter = new TripPointListAdapter(
+                requireActivity(),
+                getLayoutInflater(),
+                this
+        );
+        binding.listLocations.setAdapter(locationListAdapter);
 
-                                            tripViewModel.addTripPoint(position + 1, locations.get(which));
-                                        }
-                                    });
-                                    b.show();
-                                }
-
-                                @Override
-                                public void onRemovePointClickListener(View view, int position) {
-                                    tripViewModel.removeTripPoint(position);
-                                }
-
-                                @Override
-                                public void onDetailPointClickListener(View view, int position) {
-                                    // TODO for showing details about location
-                                }
-                            }
-                    );
-                    binding.listLocations.setAdapter(locationListAdapter);
-                }
-            }
-        });
-
-        tripViewModel.getTripLiveData().observe(requireActivity(), new Observer<Trip>() {
-            @Override
-            public void onChanged(Trip travel) {
-                if (travel != null && travel.getTripPoints() != null)
-                    locationListAdapter.setList(travel.getTripPoints());
-            }
+        tripViewModel.getTripLiveData().observe(requireActivity(), travel -> {
+            if (travel != null && travel.getTripPoints() != null)
+                locationListAdapter.setList(travel.getTripPoints());
         });
 
         binding.nextBtn.setOnClickListener(new View.OnClickListener() {
@@ -110,15 +74,52 @@ public class ModifyLocationFragment extends Fragment {
                 ((MainActivity) requireActivity()).switchToScreen(OutputFragment.class, getArguments());
             }
         });
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
 
         if (getArguments() != null && getArguments().containsKey("tripId"))
         {
             tripViewModel.getTripById(getArguments().getInt("tripId"));
         }
+    }
+    @Override
+    public void onAddPointClickListener(View view1, int position) {
+        // shows a dialog for loading locations
+        AlertDialog loadingLocationsDialog =
+                new AlertDialog.Builder(requireActivity())
+                        .setMessage("Loading locations...")
+                        .create();
+
+        loadingLocationsDialog.show();
+
+        locationViewModel.loadLocations().observe(this, new Observer<List<Location>>() {
+            @Override
+            public void onChanged(List<Location> locations) {
+                loadingLocationsDialog.dismiss();
+
+                // shows a dialog for selecting a list of locations
+                AlertDialog.Builder addLocationAlert = new AlertDialog.Builder(requireActivity());
+                addLocationAlert.setTitle("Add Location");
+                addLocationAlert.setItems(locations.stream().map(Location::getName).toArray(CharSequence[]::new), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+
+                        tripViewModel.addTripPoint(position + 1, locations.get(which));
+                    }
+                });
+                addLocationAlert.show();
+
+                locationViewModel.getLocations().removeObserver(this);
+            }
+        });
+    }
+
+    @Override
+    public void onRemovePointClickListener(View view1, int position) {
+        tripViewModel.removeTripPoint(position);
+    }
+
+    @Override
+    public void onDetailPointClickListener(View view1, int position) {
+        // TODO for showing details about location
     }
 }

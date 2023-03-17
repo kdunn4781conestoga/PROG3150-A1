@@ -1,4 +1,4 @@
-package ca.kdunn4781.assignment1.travel;
+package ca.kdunn4781.assignment1.trip;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,7 +16,7 @@ import ca.kdunn4781.assignment1.location.Location;
 @Entity(tableName = "trips")
 public class Trip {
     @PrimaryKey(autoGenerate = true)
-    public int id;
+    private int id;
 
     @NonNull
     private String name;
@@ -67,7 +67,6 @@ public class Trip {
     }
 
     public void addTravelPoint(int index, TripPoint point) {
-        point.travelId = id;
         point.setIndex(index);
 
         travelPoints.add(index, point);
@@ -144,6 +143,19 @@ public class Trip {
 
 
     ///////// GETTERS AND SETTERS /////////
+
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+
+        for (TripPoint p : travelPoints) {
+            p.travelId = id;
+        }
+    }
 
     @NonNull
     public String getName() {
