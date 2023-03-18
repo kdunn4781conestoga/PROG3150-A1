@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import ca.kdunn4781.assignment1.WelcomeFragment;
 import ca.kdunn4781.assignment1.trip.NewTripFragment;
 import ca.kdunn4781.assignment1.R;
 import ca.kdunn4781.assignment1.MainActivity;
@@ -47,7 +48,7 @@ public class OutputFragment extends Fragment {
         binding.resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity) requireActivity()).switchToScreen(NewTripFragment.class, new Bundle());
+                ((MainActivity) requireActivity()).switchToScreen(WelcomeFragment.class, new Bundle());
             }
         });
 

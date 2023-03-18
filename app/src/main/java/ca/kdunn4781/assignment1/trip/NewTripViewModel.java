@@ -34,4 +34,8 @@ public class NewTripViewModel extends AndroidViewModel {
     public LiveData<List<Location>> loadLocations() {
         return locationRepository.loadLocations();
     }
+
+    public LiveData<Trip> getTripById(int id) { return tripRepository.getTripById(id); }
+
+    public LiveData<Trip> updateTrip(Trip trip) { return tripRepository.updateTrip(trip); }
 }

@@ -1,5 +1,6 @@
 package ca.kdunn4781.assignment1.database;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -17,7 +18,7 @@ import ca.kdunn4781.assignment1.trip.TripPoint;
 public interface TripDAO {
 
     @Query("SELECT * FROM trips")
-    List<Trip> getAllTrips();
+    LiveData<List<Trip>> getAllTrips();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insertTrip(Trip travel);
@@ -32,6 +33,9 @@ public interface TripDAO {
 
     @Update
     int updateTrip(Trip travel);
+
+    @Delete
+    int deleteTrip(Trip trip);
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     long[] insertPoints(TripPoint... travelPoints);

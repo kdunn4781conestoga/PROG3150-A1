@@ -20,7 +20,8 @@ import ca.kdunn4781.assignment1.location.Location;
                 @ForeignKey(
                     entity = Trip.class,
                     parentColumns = "id",
-                    childColumns = "travelId"
+                    childColumns = "travelId",
+                    onDelete = ForeignKey.CASCADE
                 ),
                 @ForeignKey(
                     entity = Location.class,

@@ -22,4 +22,6 @@ public class SavedTripsViewModel extends AndroidViewModel {
     public LiveData<List<Trip>> loadTrips() {
         return tripRepository.loadTrips();
     }
+
+    public LiveData<Trip> deleteTrip(Trip trip) { return tripRepository.deleteTrip(trip); }
 }

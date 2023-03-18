@@ -26,14 +26,7 @@ public class TripRepository {
     }
 
     public LiveData<List<Trip>> loadTrips() {
-        MutableLiveData<List<Trip>> tripsLiveData = new MutableLiveData<>();
-        AsyncTask.execute(() -> {
-            List<Trip> trips = tripDAO.getAllTrips();
-
-            tripsLiveData.postValue(trips);
-        });
-
-        return tripsLiveData;
+        return tripDAO.getAllTrips();
     }
 
     public LiveData<Trip> createTrip(String name, @Nullable String description, int numOfAdults, int numOfChildren, Location startLocation, Location endLocation) {
@@ -69,6 +62,20 @@ public class TripRepository {
             }
 
             tripLiveData.postValue(trip);
+        });
+
+        return tripLiveData;
+    }
+
+    public LiveData<Trip> updateTrip(Trip trip) {
+        AsyncTask.execute(() -> {
+            int result = tripDAO.updateTrip(trip);
+
+            if (result > 0) {
+                tripLiveData.postValue(trip);
+            } else {
+                tripLiveData.postValue(null);
+            }
         });
 
         return tripLiveData;
@@ -113,5 +120,19 @@ public class TripRepository {
 
             tripLiveData.postValue(trip);
         });
+    }
+
+    public LiveData<Trip> deleteTrip(Trip trip) {
+        AsyncTask.execute(() -> {
+            int d = tripDAO.deleteTrip(trip);
+
+            if (d > 0) {
+                tripLiveData.postValue(null);
+            } else {
+                tripLiveData.postValue(trip);
+            }
+        });
+
+        return tripLiveData;
     }
 }
