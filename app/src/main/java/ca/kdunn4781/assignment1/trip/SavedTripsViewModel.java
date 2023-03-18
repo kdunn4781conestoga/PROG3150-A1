@@ -11,6 +11,9 @@ import java.util.List;
 
 import ca.kdunn4781.assignment1.location.LocationRepository;
 
+/**
+ * ViewModel for SavedTripsFragment
+ */
 public class SavedTripsViewModel extends AndroidViewModel {
     private final TripRepository tripRepository;
 

@@ -21,14 +21,13 @@ import ca.kdunn4781.assignment1.R;
 import ca.kdunn4781.assignment1.databinding.FragmentModifyLocationsBinding;
 import ca.kdunn4781.assignment1.output.OutputFragment;
 import ca.kdunn4781.assignment1.trip.NewTripFragment;
-import ca.kdunn4781.assignment1.trip.OnTripPointClickListener;
 import ca.kdunn4781.assignment1.trip.Trip;
 import ca.kdunn4781.assignment1.trip.TripPointListAdapter;
 
 /**
  * This activity shows a list of locations that the user can add or remove
  */
-public class ModifyLocationFragment extends Fragment implements OnTripPointClickListener {
+public class ModifyLocationFragment extends Fragment implements TripPointListAdapter.OnTripPointClickListener {
     private FragmentModifyLocationsBinding binding = null;
 
     ModifyLocationViewModel modifyLocationViewModel;
@@ -79,6 +78,7 @@ public class ModifyLocationFragment extends Fragment implements OnTripPointClick
                 }
             });
         } else {
+            // dialog to notify the user that it failed
             new AlertDialog.Builder(requireActivity())
                     .setTitle("Error")
                     .setMessage("Failed to load locations. Returning to previous screen.")

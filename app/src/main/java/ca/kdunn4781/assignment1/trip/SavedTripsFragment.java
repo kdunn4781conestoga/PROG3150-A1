@@ -31,6 +31,9 @@ import ca.kdunn4781.assignment1.R;
 import ca.kdunn4781.assignment1.WelcomeFragment;
 import ca.kdunn4781.assignment1.databinding.FragmentSavedTripsBinding;
 
+/**
+ * This class shows saved trips
+ */
 public class SavedTripsFragment extends Fragment implements AdapterView.OnItemClickListener {
     private FragmentSavedTripsBinding binding = null;
 
@@ -53,6 +56,7 @@ public class SavedTripsFragment extends Fragment implements AdapterView.OnItemCl
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // creates new adapter for listview
         adapter = new SavedTripsListAdapter(
                 requireActivity(),
                 getLayoutInflater()
@@ -61,6 +65,7 @@ public class SavedTripsFragment extends Fragment implements AdapterView.OnItemCl
 
         binding.listTrips.setAdapter(adapter);
 
+        // saved trips viewmodel
         savedTripsViewModel = new ViewModelProvider(requireActivity()).get(SavedTripsViewModel.class);
         savedTripsViewModel.loadTrips().observe(requireActivity(), trips -> {
             if (trips != null) {
@@ -80,11 +85,14 @@ public class SavedTripsFragment extends Fragment implements AdapterView.OnItemCl
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Trip trip = adapter.getItem(i);
 
+        // shows dialog for loading or deleting the trip
         new AlertDialog.Builder(requireActivity())
                 .setTitle("Trip " + trip.getId())
                 .setMessage("Do you want to load or delete the trip?")
                 .setCancelable(true)
                 .setPositiveButton(R.string.load, (dialogInterface, i12) -> {
+                    // loading existing trip
+
                     dialogInterface.dismiss();
 
                     Bundle bundle = new Bundle();
@@ -93,6 +101,8 @@ public class SavedTripsFragment extends Fragment implements AdapterView.OnItemCl
                     ((MainActivity) requireActivity()).switchToScreen(NewTripFragment.class, bundle);
                 })
                 .setNegativeButton(R.string.btnDelete, (dialogInterface, i1) -> {
+                    // deleting the trip
+
                     dialogInterface.dismiss();
 
                     new AlertDialog.Builder(requireActivity())
@@ -101,6 +111,8 @@ public class SavedTripsFragment extends Fragment implements AdapterView.OnItemCl
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
+                                    // confirmed
+
                                     dialogInterface.dismiss();
 
                                     savedTripsViewModel.deleteTrip(trip).observe(requireActivity(), (dTrip) -> {

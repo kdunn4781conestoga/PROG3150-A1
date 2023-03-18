@@ -21,6 +21,9 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * This repository contains functions for accessing data pertaining to locations
+ */
 public class LocationRepository {
     private AppDatabase appDatabase;
     private final LiveData<List<Location>> locationsLiveData;
@@ -41,6 +44,11 @@ public class LocationRepository {
         }
     }
 
+    /**
+     * This function creates the retrofit api service
+     *
+     * @return the api service
+     */
     public ApiService invoke() {
         Gson gson = new GsonBuilder()
                 .setLenient()
@@ -52,14 +60,24 @@ public class LocationRepository {
         return retrofit.create(ApiService.class);
     }
 
+    /**
+     * This function gets the list of locations
+     * @return the livedata
+     */
     public LiveData<List<Location>> getLocations() { return locationsLiveData; }
 
+    /**
+     * This function loads the locations from the server or default values
+     *
+     * @return the livedata
+     */
     public LiveData<List<Location>> loadLocations() {
         ApiService service = invoke();
         Call<List<Location>> call = service.getLocations();
         call.enqueue(new Callback<List<Location>>() {
             @Override
             public void onResponse(@NonNull Call<List<Location>> call, @NonNull Response<List<Location>> response) {
+                // populates the database with locations
                 List<Location> locations = null;
                 if (response.isSuccessful() && response.body() != null) {
                     locations = response.body();
@@ -79,6 +97,11 @@ public class LocationRepository {
         return locationsLiveData;
     }
 
+    /**
+     * This function populates the database with the provided locations
+     *
+     * @param locations the locations to insert
+     */
     private void populateLocations(Location... locations) {
         AsyncTask.execute(() -> {
             appDatabase.locationDAO().insertLocations(locations);

@@ -19,6 +19,17 @@ import ca.kdunn4781.assignment1.databinding.LocationItemBinding;
  * This class handles creating and binding items for a list containing the Location class
  */
 public class TripPointListAdapter extends BaseAdapter {
+    /**
+     * This interface is for multiple click listeners for the inflated view
+     */
+    public interface OnTripPointClickListener {
+        public void onAddPointClickListener(View view, int position);
+
+        void onRemovePointClickListener(View view, int position);
+
+        void onDetailPointClickListener(View view, int position);
+    }
+
     private Context context;
     private LayoutInflater inflater;
     private List<TripPoint> list = new ArrayList<>();

@@ -14,6 +14,9 @@ import java.time.LocalDateTime;
 
 import ca.kdunn4781.assignment1.location.Location;
 
+/**
+ * This class holds the data for travel points. It keeps track of points between travel
+ */
 @Entity(
         tableName = "tripPoints",
         foreignKeys = {
