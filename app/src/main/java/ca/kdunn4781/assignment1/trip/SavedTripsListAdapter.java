@@ -13,6 +13,9 @@ import java.util.List;
 
 import ca.kdunn4781.assignment1.R;
 
+/**
+ * This class is a list adapter for the saved trips fragment
+ */
 public class SavedTripsListAdapter extends BaseAdapter {
     private Context context;
     private LayoutInflater inflater;
@@ -108,7 +111,7 @@ public class SavedTripsListAdapter extends BaseAdapter {
             if (trip.getDescription() != null) {
                 text2.setText(trip.getDescription());
             } else {
-                text2.setVisibility(View.GONE);
+                text2.setText("No description");
             }
         }
 

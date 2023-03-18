@@ -13,6 +13,9 @@ import ca.kdunn4781.assignment1.location.LocationRepository;
 import ca.kdunn4781.assignment1.trip.Trip;
 import ca.kdunn4781.assignment1.trip.TripRepository;
 
+/**
+ * ViewModel for ModifyLocationFragment
+ */
 public class ModifyLocationViewModel extends AndroidViewModel {
     private final LocationRepository locationRepository;
     private final TripRepository tripRepository;

@@ -8,6 +8,9 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 
+/**
+ * This class contains converters for the Room database
+ */
 public class Converters {
     @TypeConverter
     public static LocalDateTime toDate(String value) {

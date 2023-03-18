@@ -1,5 +1,7 @@
 package ca.kdunn4781.assignment1.trip;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.room.Entity;
@@ -13,6 +15,9 @@ import java.util.List;
 
 import ca.kdunn4781.assignment1.location.Location;
 
+/**
+ * This class holds information about the trip
+ */
 @Entity(tableName = "trips")
 public class Trip {
     @PrimaryKey(autoGenerate = true)
@@ -50,7 +55,15 @@ public class Trip {
         this.travelPoints = travelPoints;
     }
 
+    /**
+     * This function sets the start and end travel points
+     *
+     * @param startLocation the start location
+     * @param endLocation the end location
+     */
     public void setTravelPoints(Location startLocation, Location endLocation) {
+        Log.d("Trip", "Setting start/end travel points for trip " + name);
+
         TripPoint startPoint = new TripPoint(0, startLocation, 50);
         startPoint.setArrivalDate(LocalDateTime.now());
         startPoint.setDepartDate(startPoint.getArrivalDate());
@@ -64,6 +77,7 @@ public class Trip {
         startPoint.setNextPoint(endPoint);
         endPoint.setPrevPoint(startPoint);
 
+        // prevents adding more points than needed
         if (getPoint(0) != null) {
             travelPoints.set(0, startPoint);
 
@@ -83,6 +97,12 @@ public class Trip {
         calculateDistances();
     }
 
+    /**
+     * This function adds a trip point to the trip
+     *
+     * @param index the index to add
+     * @param point the point to add
+     */
     public void addTravelPoint(int index, TripPoint point) {
         point.setIndex(index);
 
@@ -93,6 +113,11 @@ public class Trip {
         calculateDistances();
     }
 
+    /**
+     * This function removes a trip point to the trip
+     *
+     * @param index the index to remove
+     */
     public void removeTripPoint(int index) {
         travelPoints.remove(index);
 
@@ -101,6 +126,12 @@ public class Trip {
         calculateDistances();
     }
 
+    /**
+     * This function gets the point at the index
+     *
+     * @param index the index of the point
+     * @return the point
+     */
     public TripPoint getPoint(int index) {
         if (index < 0 || index >= travelPoints.size())
             return null;
@@ -108,6 +139,9 @@ public class Trip {
         return travelPoints.get(index);
     }
 
+    /**
+     * This function revalidates all trip points to have the values correct
+     */
     private void revalidate() {
         for (int i = 0; i < travelPoints.size(); i++) {
             TripPoint point = getPoint(i);

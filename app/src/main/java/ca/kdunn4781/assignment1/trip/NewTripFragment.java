@@ -29,6 +29,9 @@ import ca.kdunn4781.assignment1.databinding.PeopleCountBinding;
 import ca.kdunn4781.assignment1.location.Location;
 import ca.kdunn4781.assignment1.location.ModifyLocationFragment;
 
+/**
+ * Fragment for displaying new or existing trips
+ */
 public class NewTripFragment extends Fragment {
     private FragmentNewTripBinding binding;
 
@@ -53,9 +56,11 @@ public class NewTripFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // create viewmodel for this fragment
         newTripViewModel = new ViewModelProvider(this).get(NewTripViewModel.class);
         newTripViewModel.loadLocations().observe(requireActivity(), locations -> {
-            if (locations != null && !locations.isEmpty()) { // database items
+            // update adapter with locations
+            if (locations != null && !locations.isEmpty()) {
                 adapter.clear();
                 adapter.addAll(locations);
             }
@@ -65,6 +70,7 @@ public class NewTripFragment extends Fragment {
         assignCounters(binding.adultCount);
         assignCounters(binding.childrenCount);
 
+        // date picker
         binding.startDatePicker.btnPickDate.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -73,6 +79,7 @@ public class NewTripFragment extends Fragment {
             }
         });
 
+        // adapter for the spinners
         adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -84,6 +91,7 @@ public class NewTripFragment extends Fragment {
             public void onClick(View v) {
                 LiveData<Trip> liveData;
                 if (trip != null) {
+                    // existing trip existing so loading views
                     trip.setNumOfAdults(Integer.parseInt(binding.adultCount.howManyTv.getText().toString()));
                     trip.setNumOfChildren(Integer.parseInt(binding.childrenCount.howManyTv.getText().toString()));
                     trip.setTravelPoints(
@@ -93,6 +101,7 @@ public class NewTripFragment extends Fragment {
 
                     liveData = newTripViewModel.updateTrip(trip);
                 } else {
+                    // create new trip
                     liveData = newTripViewModel.createTrip(
                             "My Travel",
                             null,
@@ -106,6 +115,7 @@ public class NewTripFragment extends Fragment {
                 liveData.observe(requireActivity(), new Observer<Trip>() {
                     @Override
                     public void onChanged(Trip trip) {
+                        // switch to fragment after loading/creating trip
                         if (trip != null) {
                             Bundle bundle = new Bundle();
                             bundle.putInt("tripId", trip.getId());
@@ -126,9 +136,11 @@ public class NewTripFragment extends Fragment {
             }
         });
 
+        // checks if there are arguments and the tripId exists
         if (getArguments() != null && getArguments().containsKey("tripId")) {
             newTripViewModel.getTripById(getArguments().getInt("tripId")).observe(requireActivity(), trip -> {
                 if (trip != null) {
+                    // loads trip in views
                     NewTripFragment.this.trip = trip;
 
                     binding.adultCount.howManyTv.setText(String.valueOf(trip.getNumOfAdults()));
@@ -140,6 +152,10 @@ public class NewTripFragment extends Fragment {
         }
     }
 
+    /**
+     * This function sets the date
+     * @param x the textview
+     */
     private void setDate(TextView x) {
         Calendar calender = Calendar.getInstance();
         int year = calender.get(Calendar.YEAR);
@@ -157,6 +173,10 @@ public class NewTripFragment extends Fragment {
         datePickerDialog.show();
     }
 
+    /**
+     * This function setups the people counts
+     * @param peopleCountBinding the binding for people counts
+     */
     public void assignCounters(PeopleCountBinding peopleCountBinding) {
         peopleCountBinding.plusBtn.setOnClickListener(v -> {
             String s = peopleCountBinding.howManyTv.getText().toString();

@@ -11,6 +11,9 @@ import java.util.List;
 
 import ca.kdunn4781.assignment1.location.Location;
 
+/**
+ * This is for the locations table in the Room database
+ */
 @Dao
 public interface LocationDAO {
     @Query("SELECT * FROM locations")

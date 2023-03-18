@@ -10,6 +10,9 @@ import ca.kdunn4781.assignment1.location.LocationRepository;
 import ca.kdunn4781.assignment1.trip.Trip;
 import ca.kdunn4781.assignment1.trip.TripRepository;
 
+/**
+ * ViewModel for OutputFragment
+ */
 public class OutputViewModel extends AndroidViewModel {
     private final TripRepository tripRepository;
 

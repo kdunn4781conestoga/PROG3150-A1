@@ -15,6 +15,7 @@ import ca.kdunn4781.assignment1.databinding.FragmentWelcomeBinding;
 import ca.kdunn4781.assignment1.trip.NewTripFragment;
 import ca.kdunn4781.assignment1.trip.SavedTripsFragment;
 
+
 public class WelcomeFragment extends Fragment {
     FragmentWelcomeBinding binding = null;
 

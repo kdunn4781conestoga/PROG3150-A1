@@ -14,6 +14,9 @@ import java.util.List;
 import ca.kdunn4781.assignment1.trip.Trip;
 import ca.kdunn4781.assignment1.trip.TripPoint;
 
+/**
+ * This is for the trips and tripPoints table in the Room database
+ */
 @Dao
 public interface TripDAO {
 
