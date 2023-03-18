@@ -46,6 +46,7 @@ public class OutputFragment extends Fragment {
 
         OutputViewModel outputViewModel = new ViewModelProvider(this).get(OutputViewModel.class);
 
+        // start over
         binding.resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,6 +54,7 @@ public class OutputFragment extends Fragment {
             }
         });
 
+        // go to Amazon.ca
         binding.btnShop.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 
@@ -61,6 +63,7 @@ public class OutputFragment extends Fragment {
             }
         });
 
+        //display details
         if (getArguments() != null && getArguments().containsKey("tripId")) {
             outputViewModel.getTripById(getArguments().getInt("tripId")).observe(requireActivity(), trip -> {
                 if (trip != null) {

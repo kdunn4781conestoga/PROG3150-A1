@@ -32,13 +32,14 @@ public class WelcomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // create new trip
         binding.btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ((MainActivity) requireActivity()).switchToScreen(NewTripFragment.class, savedInstanceState);
             }
         });
-
+        //load saved trips
         binding.btnLoad.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
