@@ -54,7 +54,7 @@ public class OutputFragment extends Fragment {
 
         binding.btnShop.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                s
+                
                 Intent shop = new Intent(requireActivity(), Shop.class);
                 startActivity(shop);
             }
