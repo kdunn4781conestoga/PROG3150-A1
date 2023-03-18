@@ -38,6 +38,19 @@ public class Trip {
     {
         this(0, name, description, 1, 0, new ArrayList<>());
 
+        setTravelPoints(startLocation, endLocation);
+    }
+
+    private Trip(int id, @NonNull String name, @Nullable String description, int numOfAdults, int numOfChildren, @NonNull List<TripPoint> travelPoints) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.numOfAdults = numOfAdults;
+        this.numOfChildren = numOfChildren;
+        this.travelPoints = travelPoints;
+    }
+
+    public void setTravelPoints(Location startLocation, Location endLocation) {
         TripPoint startPoint = new TripPoint(0, startLocation, 50);
         startPoint.setArrivalDate(LocalDateTime.now());
         startPoint.setDepartDate(startPoint.getArrivalDate());
@@ -51,19 +64,23 @@ public class Trip {
         startPoint.setNextPoint(endPoint);
         endPoint.setPrevPoint(startPoint);
 
-        addTravelPoint(0, startPoint);
-        addTravelPoint(1, endPoint);
+        if (getPoint(0) != null) {
+            travelPoints.set(0, startPoint);
+
+            revalidate();
+        } else {
+            addTravelPoint(0, startPoint);
+        }
+
+        if (getPoint(1) != null) {
+            travelPoints.set(1, endPoint);
+
+            revalidate();
+        } else {
+            addTravelPoint(1, endPoint);
+        }
 
         calculateDistances();
-    }
-
-    private Trip(int id, @NonNull String name, @Nullable String description, int numOfAdults, int numOfChildren, @NonNull List<TripPoint> travelPoints) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.numOfAdults = numOfAdults;
-        this.numOfChildren = numOfChildren;
-        this.travelPoints = travelPoints;
     }
 
     public void addTravelPoint(int index, TripPoint point) {

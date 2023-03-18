@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
@@ -17,6 +19,7 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 
 import java.util.Calendar;
+import java.util.Locale;
 
 import ca.kdunn4781.assignment1.MainActivity;
 import ca.kdunn4781.assignment1.R;
@@ -32,6 +35,8 @@ public class NewTripFragment extends Fragment {
     private NewTripViewModel newTripViewModel;
 
     private ArrayAdapter<Location> adapter;
+
+    private Trip trip = null;
 
     public NewTripFragment() {
         // Required empty public constructor
@@ -77,19 +82,38 @@ public class NewTripFragment extends Fragment {
         binding.nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                newTripViewModel.createTrip(
-                        "My Travel",
-                        null,
-                        Integer.parseInt(binding.adultCount.howManyTv.getText().toString()),
-                        Integer.parseInt(binding.childrenCount.howManyTv.getText().toString()),
-                        adapter.getItem(binding.fromLocationSpinner.getSelectedItemPosition()),
-                        adapter.getItem(binding.toLocationSpinner.getSelectedItemPosition())
-                ).observe(requireActivity(), travel -> {
-                    if (travel != null) {
-                        Bundle bundle = new Bundle();
-                        bundle.putInt("tripId", travel.getId());
+                LiveData<Trip> liveData;
+                if (trip != null) {
+                    trip.setNumOfAdults(Integer.parseInt(binding.adultCount.howManyTv.getText().toString()));
+                    trip.setNumOfChildren(Integer.parseInt(binding.childrenCount.howManyTv.getText().toString()));
+                    trip.setTravelPoints(
+                            adapter.getItem(binding.fromLocationSpinner.getSelectedItemPosition()),
+                            adapter.getItem(binding.toLocationSpinner.getSelectedItemPosition())
+                    );
 
-                        ((MainActivity) requireActivity()).switchToScreen(ModifyLocationFragment.class, bundle);
+                    liveData = newTripViewModel.updateTrip(trip);
+                } else {
+                    liveData = newTripViewModel.createTrip(
+                            "My Travel",
+                            null,
+                            Integer.parseInt(binding.adultCount.howManyTv.getText().toString()),
+                            Integer.parseInt(binding.childrenCount.howManyTv.getText().toString()),
+                            adapter.getItem(binding.fromLocationSpinner.getSelectedItemPosition()),
+                            adapter.getItem(binding.toLocationSpinner.getSelectedItemPosition())
+                    );
+                }
+
+                liveData.observe(requireActivity(), new Observer<Trip>() {
+                    @Override
+                    public void onChanged(Trip trip) {
+                        if (trip != null) {
+                            Bundle bundle = new Bundle();
+                            bundle.putInt("tripId", trip.getId());
+
+                            ((MainActivity) requireActivity()).switchToScreen(ModifyLocationFragment.class, bundle);
+
+                            liveData.removeObserver(this);
+                        }
                     }
                 });
             }
@@ -102,7 +126,18 @@ public class NewTripFragment extends Fragment {
             }
         });
 
+        if (getArguments() != null && getArguments().containsKey("tripId")) {
+            newTripViewModel.getTripById(getArguments().getInt("tripId")).observe(requireActivity(), trip -> {
+                if (trip != null) {
+                    NewTripFragment.this.trip = trip;
 
+                    binding.adultCount.howManyTv.setText(String.valueOf(trip.getNumOfAdults()));
+                    binding.childrenCount.howManyTv.setText(String.valueOf(trip.getNumOfChildren()));
+                    binding.fromLocationSpinner.setSelection(trip.getTripPoints().get(0).locationId - 1);
+                    binding.toLocationSpinner.setSelection(trip.getTripPoints().get(trip.getTripPoints().size() - 1).locationId - 1);
+                }
+            });
+        }
     }
 
     private void setDate(TextView x) {
