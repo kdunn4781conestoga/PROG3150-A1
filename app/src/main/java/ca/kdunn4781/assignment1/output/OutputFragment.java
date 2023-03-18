@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,6 +60,7 @@ public class OutputFragment extends Fragment {
                 
                 Intent shop = new Intent(requireActivity(), Shop.class);
                 startActivity(shop);
+                Log.d("Shop", "connect to internet and visit Amazon.ca");
             }
         });
 

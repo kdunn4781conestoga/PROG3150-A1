@@ -6,6 +6,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,7 @@ public class WelcomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 ((MainActivity) requireActivity()).switchToScreen(NewTripFragment.class, savedInstanceState);
+                Log.d("Create", "switch to create saved trips");
             }
         });
         //load saved trips
@@ -44,6 +46,7 @@ public class WelcomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 ((MainActivity) requireActivity()).switchToScreen(SavedTripsFragment.class, savedInstanceState);
+                Log.d("Load", "switch to loading saved trips");
             }
         });
     }
