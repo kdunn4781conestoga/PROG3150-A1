@@ -15,7 +15,6 @@ public class Shop extends AppCompatActivity {
     private WebView webForShop = null;
     private ProgressBar progressBarForWeb = null;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
