@@ -2,9 +2,13 @@ package ca.kdunn4781.assignment1;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +20,7 @@ import ca.kdunn4781.assignment1.trip.NewTripFragment;
 import ca.kdunn4781.assignment1.trip.SavedTripsFragment;
 
 
+@RequiresApi(api = Build.VERSION_CODES.N)
 public class WelcomeFragment extends Fragment {
     FragmentWelcomeBinding binding = null;
 
@@ -38,6 +43,17 @@ public class WelcomeFragment extends Fragment {
         binding.btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // if Permission is not granted, ask user for permission
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+//                        && getActivity().checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+//                        && getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+//                    // Ask user permission for Fine and Coarse Location
+//                    getActivity().locationPermissionRequest.launch(new String[] {
+//                            Manifest.permission.ACCESS_FINE_LOCATION,
+//                            Manifest.permission.ACCESS_COARSE_LOCATION
+//                    });
+       //         }
                 ((MainActivity) requireActivity()).switchToScreen(NewTripFragment.class, savedInstanceState);
                 Log.d("Create", "switch to create saved trips");
             }
