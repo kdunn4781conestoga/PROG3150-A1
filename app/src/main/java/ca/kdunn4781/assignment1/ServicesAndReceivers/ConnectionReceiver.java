@@ -16,6 +16,6 @@ public class ConnectionReceiver extends BroadcastReceiver {
         // Receive custom broadcast sender code
         connection = intent.getExtras().getBoolean("Connection");
         Log.d("Custom Broadcast Rev", String.valueOf(connection));
-        context.stopService(new Intent(context, NetworkService.class));
+        context.stopService(new Intent(context, Network.class));
     }
 }
