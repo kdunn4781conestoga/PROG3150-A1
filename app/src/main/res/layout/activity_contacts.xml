@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!--
-   ASSIGNMENT   : Assignment 3
-   PROJECT      : activity_contacts.xml
-   PROGRAMMERS  : Group 9
-   DATE         : 2022-04-11
-   DESCRIPTION  : This is the activity that collects invitee name and email
--->
-
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"

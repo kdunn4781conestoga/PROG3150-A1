@@ -23,7 +23,7 @@ public class Network extends Service {
 
     // Declare variable to send for a custom broadcast
     private boolean connection = false;
-    public final static String MY_BROADCAST = "com.example.group9_assignment2";
+    public final static String MY_BROADCAST = "ca.kdunn4781.assignment1";
 
     private static String Channel_ID = "My Channel";
 
@@ -87,19 +87,6 @@ public class Network extends Service {
         Log.d("NetworkService", "Service Destroyed");
     }
 
-
-    /*
-     * TITLE : “GraphicsDrawer” function source code
-     * AUTHOR : J. Smith, S. Spade
-     * DATE : 2011-09-14
-     * VERSION : 1.7.11
-     * AVAILABILITY : https://www.youtube.com/watch?v=3FQYp2J_Nnw
-     */
-
-    // METHOD      : isConnected
-    // PARAMETER   : None
-    // RETURN      : void
-    // DESCRIPTION : This function checks wireless connection of
 
     public boolean isConnected() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
