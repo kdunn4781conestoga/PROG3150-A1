@@ -72,7 +72,7 @@ public class TripPoint {
     private Duration timeToTravel;
 
     public TripPoint() {
-        this(-1, new Location("Invalid"), 0);
+        this(-1, new Location("Invalid", 0, 0), 0);
     }
 
     public TripPoint(int index, @NonNull Location location, float distanceToTravel) {

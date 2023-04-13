@@ -6,6 +6,8 @@ import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.io.Serializable;
 
 /**
@@ -25,13 +27,18 @@ public class Location {
     @ColumnInfo()
     private String name;
 
+    private double latCoord;
+    private double longCoord;
+
     /**
      * This constructor creates an instance with the location name and arrival date
      * @param name the location name
      */
-    public Location(String name) {
+    public Location(String name, double latCoord, double longCoord) {
         this.id = 0;
         this.name = name;
+        this.latCoord = latCoord;
+        this.longCoord = longCoord;
     }
 
     ///////// GETTERS AND SETTERS /////////
@@ -39,6 +46,16 @@ public class Location {
     public String getName() {
         return name;
     }
+
+    public double getLatCoord() {
+        return latCoord;
+    }
+
+    public double getLongCoord() {
+        return longCoord;
+    }
+
+    public LatLng getCoord() { return new LatLng(latCoord, longCoord); }
 
 
     ///////// OVERRIDES //////////

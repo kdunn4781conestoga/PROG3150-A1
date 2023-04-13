@@ -63,6 +63,20 @@ public class NewTripFragment extends Fragment {
             if (locations != null && !locations.isEmpty()) {
                 adapter.clear();
                 adapter.addAll(locations);
+
+                if (trip != null) {
+                    for (int i = 0; i < locations.size(); i++)
+                    {
+                        if (locations.get(i).id == trip.getTripPoints().get(0).locationId) {
+                            binding.fromLocationSpinner.setSelection(i);
+                        } else if (locations.get(i).id == trip.getTripPoints().get(trip.getTripPoints().size() - 1).locationId) {
+                            binding.toLocationSpinner.setSelection(i);
+                        }
+                    }
+                } else {
+                    binding.fromLocationSpinner.setSelection(0);
+                    binding.toLocationSpinner.setSelection(locations.size() - 1);
+                }
             }
         });
 
@@ -145,8 +159,6 @@ public class NewTripFragment extends Fragment {
 
                     binding.adultCount.howManyTv.setText(String.valueOf(trip.getNumOfAdults()));
                     binding.childrenCount.howManyTv.setText(String.valueOf(trip.getNumOfChildren()));
-                    binding.fromLocationSpinner.setSelection(trip.getTripPoints().get(0).locationId - 1);
-                    binding.toLocationSpinner.setSelection(trip.getTripPoints().get(trip.getTripPoints().size() - 1).locationId - 1);
                 }
             });
         }

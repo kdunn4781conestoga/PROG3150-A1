@@ -14,7 +14,7 @@ import ca.kdunn4781.assignment1.trip.TripPoint;
 /**
  * This class is for the App's Room database
  */
-@Database(entities = {Location.class, Trip.class, TripPoint.class}, version = 1)
+@Database(entities = {Location.class, Trip.class, TripPoint.class}, version = 1, exportSchema = false)
 @TypeConverters(Converters.class)
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase _singleton;
@@ -28,7 +28,9 @@ public abstract class AppDatabase extends RoomDatabase {
     public static AppDatabase getAppDatabase(Context context) {
         if (_singleton == null)
         {
-            _singleton = Room.databaseBuilder(context, AppDatabase.class, "trip-planner").build();
+            _singleton = Room.databaseBuilder(context, AppDatabase.class, "trip-planner")
+                    .createFromAsset("database/defaults.db")
+                    .build();
         }
 
         return _singleton;

@@ -6,6 +6,8 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -27,21 +29,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class LocationRepository {
     private AppDatabase appDatabase;
     private final LiveData<List<Location>> locationsLiveData;
-    private final Location[] defaultLocations;
 
     public LocationRepository(@NonNull Context context) {
         this.appDatabase = AppDatabase.getAppDatabase(context);
         this.locationsLiveData = appDatabase.locationDAO().loadAllLocations();
-
-        // loads default locations (in-case the api service failed to grab locations)
-        String[] locations = context.getResources().getStringArray(R.array.locations);
-        defaultLocations = new Location[locations.length];
-        for (int i = 0; i < locations.length; i++) {
-            Location l = new Location(locations[i]);
-            l.id = i + 1;
-
-            defaultLocations[i] = l;
-        }
     }
 
     /**
@@ -72,6 +63,8 @@ public class LocationRepository {
      * @return the livedata
      */
     public LiveData<List<Location>> loadLocations() {
+        MutableLiveData<List<Location>> liveData = new MutableLiveData<>();
+
         ApiService service = invoke();
         Call<List<Location>> call = service.getLocations();
         call.enqueue(new Callback<List<Location>>() {
@@ -81,20 +74,45 @@ public class LocationRepository {
                 List<Location> locations = null;
                 if (response.isSuccessful() && response.body() != null) {
                     locations = response.body();
+
+                    locationsLiveData.observeForever(new Observer<List<Location>>() {
+                        @Override
+                        public void onChanged(List<Location> locations) {
+                            liveData.postValue(locations);
+
+                            locationsLiveData.removeObserver(this);
+                        }
+                    });
+
                     populateLocations(locations.toArray(new Location[0]));
                 } else {
-                    populateLocations(defaultLocations);
+                    locationsLiveData.observeForever(new Observer<List<Location>>() {
+                        @Override
+                        public void onChanged(List<Location> locations) {
+                            liveData.postValue(locations);
+
+                            locationsLiveData.removeObserver(this);
+                        }
+                    });
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<List<Location>> call, @NonNull Throwable t) {
                 Log.d("LocationRepository", t.getLocalizedMessage());
-                populateLocations(defaultLocations);
+
+                locationsLiveData.observeForever(new Observer<List<Location>>() {
+                    @Override
+                    public void onChanged(List<Location> locations) {
+                        liveData.postValue(locations);
+
+                        locationsLiveData.removeObserver(this);
+                    }
+                });
             }
         });
 
-        return locationsLiveData;
+        return liveData;
     }
 
     /**
@@ -102,7 +120,7 @@ public class LocationRepository {
      *
      * @param locations the locations to insert
      */
-    private void populateLocations(Location... locations) {
+    public void populateLocations(Location... locations) {
         AsyncTask.execute(() -> {
             appDatabase.locationDAO().insertLocations(locations);
         });
