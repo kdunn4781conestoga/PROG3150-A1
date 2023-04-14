@@ -8,6 +8,8 @@ import android.util.Log;
 
 
 import androidx.annotation.Nullable;
+import android.widget.Toast;
+
 
 public class Booted extends Service {
     @Override
@@ -17,6 +19,8 @@ public class Booted extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Toast.makeText(this, "Service Started", Toast.LENGTH_LONG).show();
+
         Log.d("AfterBootService", "Service Started with id=" + startId);
         return START_STICKY;
     }
@@ -29,6 +33,8 @@ public class Booted extends Service {
 
     @Override
     public void onDestroy() {
+        Toast.makeText(this, "Service Stopped", Toast.LENGTH_LONG).show();
+
         Log.d("Booted", "Service Destroyed");
     }
 }

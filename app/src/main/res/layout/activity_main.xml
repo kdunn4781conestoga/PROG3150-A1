@@ -17,7 +17,8 @@
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/appBar"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:theme="@style/Toolbar.Custom"/>
 
         </com.google.android.material.appbar.AppBarLayout>
 

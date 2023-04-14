@@ -43,4 +43,21 @@
     <string name="load">Load</string>
     <string name="tripListItem1">%02d - %s</string>
     <string name="mapTripMarker">Do you want <b>%s</b> to the trip?</string>
+
+    <string name="startServiceBtn">Start Service</string>
+    <string name="stopServiveBtn">Stop Service</string>
+
+    <string name="edit_name">Edit Name</string>
+    <string name="edit_description">Edit Description</string>
+    <string name="name">Name</string>
+    <string name="description">Description</string>
+    <string name="trip_details">Trip Details</string>
+    <string name="edit_details">Edit Details</string>
+    <string name="appwidget_description">Display a trip on your homescreen</string>
+    <string name="location">Location</string>
+    <string name="no_results">No Results</string>
+    <string name="no_trip">Trip %d no longer exists</string>
+    <string name="configure">Configure</string>
+    <string name="loading_locations">Loading Locations...</string>
+
 </resources>

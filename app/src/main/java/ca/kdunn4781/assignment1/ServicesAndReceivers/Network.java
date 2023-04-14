@@ -14,6 +14,7 @@ import android.os.Build;
 import android.os.IBinder;
 import android.provider.Settings;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
@@ -72,6 +73,8 @@ public class Network extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Toast.makeText(this, "Service Started", Toast.LENGTH_LONG).show();
+
         Log.i("NetworkService", "Service Started with id=" + startId);
         return START_STICKY;
     }
@@ -84,6 +87,7 @@ public class Network extends Service {
 
     @Override
     public void onDestroy() {
+        Toast.makeText(this, "Service Stopped", Toast.LENGTH_LONG).show();
         Log.d("NetworkService", "Service Destroyed");
     }
 

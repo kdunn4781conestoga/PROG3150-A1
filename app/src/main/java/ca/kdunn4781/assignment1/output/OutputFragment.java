@@ -51,7 +51,7 @@ public class OutputFragment extends Fragment {
         binding.resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity) requireActivity()).switchToScreen(WelcomeFragment.class, new Bundle());
+                ((MainActivity) requireActivity()).switchToScreen(WelcomeFragment.class, "Trip Planner", new Bundle());
             }
         });
 
@@ -67,7 +67,7 @@ public class OutputFragment extends Fragment {
 
         //display details
         if (getArguments() != null && getArguments().containsKey("tripId")) {
-            outputViewModel.getTripById(getArguments().getInt("tripId")).observe(requireActivity(), trip -> {
+            outputViewModel.getTripById(getArguments().getInt("tripId")).observe(getViewLifecycleOwner(), trip -> {
                 if (trip != null) {
                     int tripCount = trip.getTripPoints().size();
                     int cost = (tripCount - 1) * 50;

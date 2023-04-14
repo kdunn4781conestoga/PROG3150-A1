@@ -52,7 +52,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/totalDistanceTraveled" />
+            app:layout_constraintTop_toBottomOf="@+id/totalDistanceTraveled"
+            android:layout_marginBottom="20dp"/>
 
         <TextView
             android:id="@+id/totalCost"
@@ -67,7 +68,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/totalTimeTraveled" />
+            app:layout_constraintTop_toBottomOf="@+id/totalTimeTraveled"
+            android:layout_marginBottom="20dp"/>
 
         <Button
             android:id="@+id/resetButton"
@@ -78,18 +80,20 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/totalCost" />
+            app:layout_constraintTop_toBottomOf="@+id/totalCost"
+            android:layout_marginBottom="20dp"/>
 
         <Button
             android:id="@+id/btnShop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
             android:text="@string/btnShop"
-            app:layout_constraintBottom_toTopOf="@+id/btnSave"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/resetButton" />
+            app:layout_constraintTop_toBottomOf="@+id/resetButton"
+            app:layout_constraintVertical_bias="0.0" />
 
         <Button
             android:id="@+id/btnSave"

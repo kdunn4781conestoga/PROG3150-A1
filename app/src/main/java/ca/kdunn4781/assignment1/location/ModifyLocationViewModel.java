@@ -8,8 +8,6 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
-import ca.kdunn4781.assignment1.location.Location;
-import ca.kdunn4781.assignment1.location.LocationRepository;
 import ca.kdunn4781.assignment1.trip.Trip;
 import ca.kdunn4781.assignment1.trip.TripRepository;
 
@@ -27,7 +25,7 @@ public class ModifyLocationViewModel extends AndroidViewModel {
         this.tripRepository = new TripRepository(application);
     }
 
-    public LiveData<Trip> getTripById(int id) { return tripRepository.getTripById(id); }
+    public LiveData<Trip> getTripById(int id) { return tripRepository.loadTripById(id); }
 
     public void addTripPoint(int index, Location location) {
         tripRepository.addTripPoint(index, location);

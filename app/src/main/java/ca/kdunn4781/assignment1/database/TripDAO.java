@@ -6,7 +6,6 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
-import androidx.room.Transaction;
 import androidx.room.Update;
 
 import java.util.List;
@@ -21,7 +20,7 @@ import ca.kdunn4781.assignment1.trip.TripPoint;
 public interface TripDAO {
 
     @Query("SELECT * FROM trips")
-    LiveData<List<Trip>> getAllTrips();
+    LiveData<List<Trip>> loadAllTrips();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insertTrip(Trip travel);
@@ -44,7 +43,10 @@ public interface TripDAO {
     long[] insertPoints(TripPoint... travelPoints);
 
     @Query("SELECT * FROM tripPoints WHERE travelId = :travelId ORDER BY `index` ASC")
-    List<TripPoint> findPointsByTravelId(int travelId);
+    List<TripPoint> getPointsById(int travelId);
+
+    @Query("SELECT * FROM tripPoints WHERE travelId = :travelId ORDER BY `index` ASC")
+    LiveData<List<TripPoint>> findPointsById(int travelId);
 
     @Update
     int updatePoints(TripPoint... points);

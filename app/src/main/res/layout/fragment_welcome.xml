@@ -26,6 +26,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/btnLoad"
+            android:onClick="startService"
+
             tools:layout_editor_absoluteX="39dp"
             tools:layout_editor_absoluteY="31dp"
             android:layout_marginBottom="20dp"/>
@@ -36,8 +38,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/btnCreate"
+
             tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="31dp"/>
+            android:layout_marginBottom="20dp"/>
+
+
+        <Button
+            android:id="@+id/startServiceBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:onClick="startService"
+            android:text="@string/startServiceBtn" />
+
+        <Button
+            android:id="@+id/stopServiceBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="stopService"
+            android:text="@string/stopServiveBtn" />
 
 
     </LinearLayout>

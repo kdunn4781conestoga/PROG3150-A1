@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import ca.kdunn4781.assignment1.location.LocationRepository;
 import ca.kdunn4781.assignment1.trip.Trip;
 import ca.kdunn4781.assignment1.trip.TripRepository;
 
@@ -22,5 +21,5 @@ public class OutputViewModel extends AndroidViewModel {
         this.tripRepository = new TripRepository(application);
     }
 
-    public LiveData<Trip> getTripById(int id) { return tripRepository.getTripById(id); }
+    public LiveData<Trip> getTripById(int id) { return tripRepository.loadTripById(id); }
 }

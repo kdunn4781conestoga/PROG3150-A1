@@ -67,7 +67,7 @@ public class SavedTripsFragment extends Fragment implements AdapterView.OnItemCl
 
         // saved trips viewmodel
         savedTripsViewModel = new ViewModelProvider(requireActivity()).get(SavedTripsViewModel.class);
-        savedTripsViewModel.loadTrips().observe(requireActivity(), trips -> {
+        savedTripsViewModel.loadTrips().observe(getViewLifecycleOwner(), trips -> {
             if (trips != null) {
                 adapter.setList(trips);
             }
@@ -76,7 +76,7 @@ public class SavedTripsFragment extends Fragment implements AdapterView.OnItemCl
         binding.btbBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity) requireActivity()).switchToScreen(WelcomeFragment.class, savedInstanceState);
+                ((MainActivity) requireActivity()).switchToScreen(WelcomeFragment.class, "Trip Planner", savedInstanceState);
             }
         });
     }
@@ -98,7 +98,7 @@ public class SavedTripsFragment extends Fragment implements AdapterView.OnItemCl
                     Bundle bundle = new Bundle();
                     bundle.putInt("tripId", trip.getId());
 
-                    ((MainActivity) requireActivity()).switchToScreen(NewTripFragment.class, bundle);
+                    ((MainActivity) requireActivity()).switchToScreen(NewTripFragment.class, "Existing Trip", bundle);
                 })
                 .setNegativeButton(R.string.btnDelete, (dialogInterface, i1) -> {
                     // deleting the trip
@@ -115,7 +115,7 @@ public class SavedTripsFragment extends Fragment implements AdapterView.OnItemCl
 
                                     dialogInterface.dismiss();
 
-                                    savedTripsViewModel.deleteTrip(trip).observe(requireActivity(), (dTrip) -> {
+                                    savedTripsViewModel.deleteTrip(trip).observe(getViewLifecycleOwner(), (dTrip) -> {
                                         if (dTrip == null) {
                                             Toast.makeText(requireActivity(), "Successfully deleted trip!", Toast.LENGTH_LONG).show();
                                         } else {
