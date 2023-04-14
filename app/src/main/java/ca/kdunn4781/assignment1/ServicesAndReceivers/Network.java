@@ -20,13 +20,14 @@ import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import ca.kdunn4781.assignment1.MainActivity;
+import ca.kdunn4781.assignment1.R;
+
 public class Network extends Service {
 
     // Declare variable to send for a custom broadcast
     private boolean connection = false;
     public final static String MY_BROADCAST = "ca.kdunn4781.assignment1";
-
-    private static String Channel_ID = "My Channel";
 
     @Override
     public void onCreate() {
@@ -37,7 +38,7 @@ public class Network extends Service {
 
         // If connection is false
         if (!connection) {
-            Intent notificationIntent = new Intent(this, Wifi.class);
+            Intent notificationIntent = new Intent(Settings.ACTION_WIFI_SETTINGS);
             notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE);
 
@@ -47,8 +48,9 @@ public class Network extends Service {
 
             // Build notification
             NotificationCompat.Builder mBuilder
-                    = new NotificationCompat.Builder(this, Channel_ID)
+                    = new NotificationCompat.Builder(this, MainActivity.Channel_ID)
                     .setContentTitle(contentTitle)
+                    .setSmallIcon(R.drawable.baseline_settings_24)
                     .setContentText(contentText)
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                     // Tab fires activity_wifiSetting.class which leads to Wifi Setting screen

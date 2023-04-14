@@ -33,20 +33,6 @@ public class WelcomeFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public void startService(View view) {
-        Intent intent = new Intent(getActivity().getBaseContext(), Network.class);
-        getActivity().startService(intent);
-
-    }
-
-    // Method to stop the service
-    public void stopService(View view) {
-        Intent intent = new Intent(getActivity().getBaseContext(), Network.class);
-        getActivity().stopService(intent);
-
-    }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

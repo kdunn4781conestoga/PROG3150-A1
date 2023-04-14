@@ -1,6 +1,8 @@
 package ca.kdunn4781.assignment1.location;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -10,6 +12,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
@@ -50,10 +53,38 @@ public class ModifyLocationFragment extends Fragment implements TripPointListAda
 
     List<String> locationStrs;
 
+    ActivityResultLauncher<String[]> locationPermissionRequest;
+
     int tripPosition;
+    private GoogleMap googleMap;
 
     public ModifyLocationFragment() {
         // Required empty public constructor
+    }
+
+    @SuppressLint("MissingPermission")
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        locationPermissionRequest =
+                registerForActivityResult(new ActivityResultContracts
+                                .RequestMultiplePermissions(), result -> {
+                            Boolean fineLocationGranted = result.getOrDefault(
+                                    Manifest.permission.ACCESS_FINE_LOCATION, false);
+                            Boolean coarseLocationGranted = result.getOrDefault(
+                                    Manifest.permission.ACCESS_COARSE_LOCATION,false);
+                            if (fineLocationGranted != null && fineLocationGranted) {
+                                // Precise location access granted.
+                                googleMap.setMyLocationEnabled(true);
+                            } else if (coarseLocationGranted != null && coarseLocationGranted) {
+                                // Only approximate location access granted.
+                                googleMap.setMyLocationEnabled(true);
+                            } else {
+                                // No location access granted.
+                                googleMap.setMyLocationEnabled(false);
+                            }
+                        }
+                );
     }
 
     @Override
@@ -77,12 +108,7 @@ public class ModifyLocationFragment extends Fragment implements TripPointListAda
         );
         binding.listLocations.setAdapter(locationListAdapter);
 
-        binding.nextBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((MainActivity) requireActivity()).switchToScreen(OutputFragment.class, "Trip Results", getArguments());
-            }
-        });
+        binding.nextBtn.setOnClickListener(v -> ((MainActivity) requireActivity()).switchToScreen(OutputFragment.class, "Trip Results", getArguments()));
 
         if (getArguments() != null && getArguments().containsKey("tripId")) {
             modifyLocationViewModel.getTripById(getArguments().getInt("tripId")).observe(getViewLifecycleOwner(), new Observer<Trip>() {
@@ -133,6 +159,13 @@ public class ModifyLocationFragment extends Fragment implements TripPointListAda
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
+        this.googleMap = googleMap;
+
+        locationPermissionRequest.launch(new String[] {
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+        });
+
         CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(43.4822111, -80.5880046), 8f);
         googleMap.moveCamera(update);
 
