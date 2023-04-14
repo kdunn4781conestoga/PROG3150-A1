@@ -43,4 +43,10 @@
     <string name="load">Load</string>
     <string name="tripListItem1">%02d - %s</string>
     <string name="mapTripMarker">Do you want <b>%s</b> to the trip?</string>
+    <string name="edit_name">Edit Name</string>
+    <string name="edit_description">Edit Description</string>
+    <string name="name">Name</string>
+    <string name="description">Description</string>
+    <string name="trip_details">Trip Details</string>
+    <string name="edit_details">Edit Details</string>
 </resources>
