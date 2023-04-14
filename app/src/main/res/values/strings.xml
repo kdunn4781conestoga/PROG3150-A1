@@ -49,4 +49,10 @@
     <string name="description">Description</string>
     <string name="trip_details">Trip Details</string>
     <string name="edit_details">Edit Details</string>
+    <string name="appwidget_description">Display a trip on your homescreen</string>
+    <string name="location">Location</string>
+    <string name="no_results">No Results</string>
+    <string name="no_trip">Trip %d no longer exists</string>
+    <string name="configure">Configure</string>
+    <string name="loading_locations">Loading Locations...</string>
 </resources>

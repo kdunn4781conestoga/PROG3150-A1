@@ -11,8 +11,6 @@ import java.util.List;
 
 import ca.kdunn4781.assignment1.location.Location;
 import ca.kdunn4781.assignment1.location.LocationRepository;
-import ca.kdunn4781.assignment1.trip.Trip;
-import ca.kdunn4781.assignment1.trip.TripRepository;
 
 /**
  * ViewModel for NewTripFragment
@@ -38,7 +36,7 @@ public class NewTripViewModel extends AndroidViewModel {
         return locationRepository.loadLocations();
     }
 
-    public LiveData<Trip> getTripById(int id) { return tripRepository.getTripById(id); }
+    public LiveData<Trip> getTripById(int id) { return tripRepository.loadTripById(id); }
 
     public LiveData<Trip> updateTrip(Trip trip) { return tripRepository.updateTrip(trip); }
 }

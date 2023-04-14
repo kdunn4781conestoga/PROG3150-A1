@@ -72,6 +72,11 @@ public class NewTripFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        AlertDialog loadDialog = new AlertDialog.Builder(requireContext())
+                .setMessage(getString(R.string.loading_locations))
+                .setCancelable(false)
+                .show();
+
         // create viewmodel for this fragment
         newTripViewModel = new ViewModelProvider(this).get(NewTripViewModel.class);
         newTripViewModel.loadLocations().observe(getViewLifecycleOwner(), locations -> {
@@ -94,6 +99,8 @@ public class NewTripFragment extends Fragment {
                     binding.toLocationSpinner.setSelection(locations.size() - 1);
                 }
             }
+
+            loadDialog.dismiss();
         });
 
         // better implementation of adding click events for the counters
