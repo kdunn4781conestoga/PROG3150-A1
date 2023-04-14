@@ -59,6 +59,24 @@
                 android:value="" />
         </activity>
 
+        <receiver android:name=".widget.TripWidgetProvider" android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider"
+                android:resource="@xml/widgetprovider_trip"/>
+        </receiver>
+
+        <activity android:name=".widget.TripWidgetConfigurationActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+            </intent-filter>
+        </activity>
+
+        <service android:name=".widget.TripWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"/>
+
         <service android:name=".ServicesAndReceivers.Network"></service>
         <service android:name=".ServicesAndReceivers.Booted"></service>
 

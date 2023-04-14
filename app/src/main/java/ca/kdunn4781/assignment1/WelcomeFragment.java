@@ -63,7 +63,14 @@ public class WelcomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                ((MainActivity) requireActivity()).switchToScreen(NewTripFragment.class, savedInstanceState);
+//                ((MainActivity) requireActivity()).switchToScreen(NewTripFragment.class, savedInstanceState);
+//                    // Ask user permission for Fine and Coarse Location
+//                    getActivity().locationPermissionRequest.launch(new String[] {
+//                            Manifest.permission.ACCESS_FINE_LOCATION,
+//                            Manifest.permission.ACCESS_COARSE_LOCATION
+//                    });
+       //         }
+                ((MainActivity) requireActivity()).switchToScreen(NewTripFragment.class, "New Trip", savedInstanceState);
                 Log.d("Create", "switch to create saved trips");
             }
         });
@@ -71,7 +78,7 @@ public class WelcomeFragment extends Fragment {
         binding.btnLoad.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity) requireActivity()).switchToScreen(SavedTripsFragment.class, savedInstanceState);
+                ((MainActivity) requireActivity()).switchToScreen(SavedTripsFragment.class, "Existing Trips", savedInstanceState);
                 Log.d("Load", "switch to loading saved trips");
             }
         });

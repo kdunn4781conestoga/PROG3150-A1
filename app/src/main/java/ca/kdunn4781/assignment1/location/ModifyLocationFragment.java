@@ -80,12 +80,12 @@ public class ModifyLocationFragment extends Fragment implements TripPointListAda
         binding.nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity) requireActivity()).switchToScreen(OutputFragment.class, getArguments());
+                ((MainActivity) requireActivity()).switchToScreen(OutputFragment.class, "Trip Results", getArguments());
             }
         });
 
         if (getArguments() != null && getArguments().containsKey("tripId")) {
-            modifyLocationViewModel.getTripById(getArguments().getInt("tripId")).observe(requireActivity(), new Observer<Trip>() {
+            modifyLocationViewModel.getTripById(getArguments().getInt("tripId")).observe(getViewLifecycleOwner(), new Observer<Trip>() {
                 @Override
                 public void onChanged(Trip trip) {
                     if (trip != null && trip.getTripPoints() != null) {
@@ -101,7 +101,7 @@ public class ModifyLocationFragment extends Fragment implements TripPointListAda
                     .setOnDismissListener((dialog) -> {
                         dialog.dismiss();
 
-                        ((MainActivity) requireActivity()).switchToScreen(NewTripFragment.class, new Bundle());
+                        ((MainActivity) requireActivity()).switchToScreen(NewTripFragment.class, "Modify Trip", new Bundle());
                     })
                     .show();
         }
@@ -155,7 +155,7 @@ public class ModifyLocationFragment extends Fragment implements TripPointListAda
 
         loadingLocationsDialog.show();
 
-        modifyLocationViewModel.loadLocations().observe(this, new Observer<List<Location>>() {
+        modifyLocationViewModel.loadLocations().observe(getViewLifecycleOwner(), new Observer<List<Location>>() {
             @Override
             public void onChanged(List<Location> locations) {
                 loadingLocationsDialog.dismiss();

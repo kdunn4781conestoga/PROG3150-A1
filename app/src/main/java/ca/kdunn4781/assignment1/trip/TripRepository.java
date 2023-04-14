@@ -7,6 +7,7 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
 import java.util.Comparator;
 import java.util.List;
@@ -31,7 +32,7 @@ public class TripRepository {
 
     public LiveData<List<Trip>> loadTrips() {
         Log.d("TripRepository", "Loading trips...");
-        return tripDAO.getAllTrips();
+        return tripDAO.loadAllTrips();
     }
 
     /**
@@ -70,26 +71,36 @@ public class TripRepository {
      * @param id the trip's id
      * @return the livedata
      */
-    public LiveData<Trip> getTripById(int id) {
+    public LiveData<Trip> loadTripById(int id) {
         AsyncTask.execute(() -> {
             Trip trip = tripDAO.findByTripId(id);
 
-            Log.d("TripRepository", "Finding trip...");
-            List<TripPoint> points = tripDAO.findPointsByTravelId(id);
-            IntStream.range(0, points.size()).forEach(i -> trip.addTravelPoint(i, points.get(i)));
+            if (trip != null) {
+                Log.d("TripRepository", "Finding trip...");
+                List<TripPoint> points = tripDAO.getPointsById(id);
+                IntStream.range(0, points.size()).forEach(i -> trip.addTravelPoint(i, points.get(i)));
 
-            trip.getTripPoints().sort(Comparator.comparingInt(TripPoint::getIndex));
+                trip.getTripPoints().sort(Comparator.comparingInt(TripPoint::getIndex));
 
-            for (TripPoint p : trip.getTripPoints()) {
-                Location location = appDatabase.locationDAO().findLocationById(p.locationId);
-                if (location != null)
-                    p.setLocation(location);
+                for (TripPoint p : trip.getTripPoints()) {
+                    Location location = appDatabase.locationDAO().findLocationById(p.locationId);
+                    if (location != null)
+                        p.setLocation(location);
+                }
             }
 
             tripLiveData.postValue(trip);
         });
 
         return tripLiveData;
+    }
+
+    public LiveData<List<TripPoint>> getTripPoints(int tripId) {
+        return tripDAO.findPointsById(tripId);
+    }
+
+    public Location getLocationById(int id) {
+        return appDatabase.locationDAO().findLocationById(id);
     }
 
     /**

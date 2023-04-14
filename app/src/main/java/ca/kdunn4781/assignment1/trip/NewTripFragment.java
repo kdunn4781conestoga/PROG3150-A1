@@ -1,7 +1,12 @@
 package ca.kdunn4781.assignment1.trip;
 
+
 import android.Manifest;
+
+import android.app.AlertDialog;
+
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -15,18 +20,24 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Objects;
 
 import ca.kdunn4781.assignment1.MainActivity;
 import ca.kdunn4781.assignment1.R;
 import ca.kdunn4781.assignment1.WelcomeFragment;
+import ca.kdunn4781.assignment1.databinding.DialogTripDetailsBinding;
 import ca.kdunn4781.assignment1.databinding.FragmentNewTripBinding;
 import ca.kdunn4781.assignment1.databinding.PeopleCountBinding;
 import ca.kdunn4781.assignment1.location.Location;
@@ -43,11 +54,19 @@ public class NewTripFragment extends Fragment {
     private ArrayAdapter<Location> adapter;
 
     private Trip trip = null;
+    private String name = null;
+    private String description = null;
 
     public NewTripFragment() {
         // Required empty public constructor
     }
 
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -80,9 +99,16 @@ public class NewTripFragment extends Fragment {
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION
         });
+
+        AlertDialog loadDialog = new AlertDialog.Builder(requireContext())
+                .setMessage(getString(R.string.loading_locations))
+                .setCancelable(false)
+                .show();
+
+
         // create viewmodel for this fragment
         newTripViewModel = new ViewModelProvider(this).get(NewTripViewModel.class);
-        newTripViewModel.loadLocations().observe(requireActivity(), locations -> {
+        newTripViewModel.loadLocations().observe(getViewLifecycleOwner(), locations -> {
             // update adapter with locations
             if (locations != null && !locations.isEmpty()) {
                 adapter.clear();
@@ -102,6 +128,8 @@ public class NewTripFragment extends Fragment {
                     binding.toLocationSpinner.setSelection(locations.size() - 1);
                 }
             }
+
+            loadDialog.dismiss();
         });
 
         // better implementation of adding click events for the counters
@@ -130,6 +158,8 @@ public class NewTripFragment extends Fragment {
                 LiveData<Trip> liveData;
                 if (trip != null) {
                     // existing trip existing so loading views
+                    trip.setName(name);
+                    trip.setDescription(description);
                     trip.setNumOfAdults(Integer.parseInt(binding.adultCount.howManyTv.getText().toString()));
                     trip.setNumOfChildren(Integer.parseInt(binding.childrenCount.howManyTv.getText().toString()));
                     trip.setTravelPoints(
@@ -141,8 +171,8 @@ public class NewTripFragment extends Fragment {
                 } else {
                     // create new trip
                     liveData = newTripViewModel.createTrip(
-                            "My Travel",
-                            null,
+                            name,
+                            description,
                             Integer.parseInt(binding.adultCount.howManyTv.getText().toString()),
                             Integer.parseInt(binding.childrenCount.howManyTv.getText().toString()),
                             adapter.getItem(binding.fromLocationSpinner.getSelectedItemPosition()),
@@ -150,7 +180,7 @@ public class NewTripFragment extends Fragment {
                     );
                 }
 
-                liveData.observe(requireActivity(), new Observer<Trip>() {
+                liveData.observe(getViewLifecycleOwner(), new Observer<Trip>() {
                     @Override
                     public void onChanged(Trip trip) {
                         // switch to fragment after loading/creating trip
@@ -158,7 +188,7 @@ public class NewTripFragment extends Fragment {
                             Bundle bundle = new Bundle();
                             bundle.putInt("tripId", trip.getId());
 
-                            ((MainActivity) requireActivity()).switchToScreen(ModifyLocationFragment.class, bundle);
+                            ((MainActivity) requireActivity()).switchToScreen(ModifyLocationFragment.class, "Modify Locations", bundle);
 
                             liveData.removeObserver(this);
                         }
@@ -170,22 +200,91 @@ public class NewTripFragment extends Fragment {
         binding.backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity) requireActivity()).switchToScreen(WelcomeFragment.class, new Bundle());
+                ((MainActivity) requireActivity()).switchToScreen(WelcomeFragment.class, "Trip Planner", new Bundle());
             }
         });
 
         // checks if there are arguments and the tripId exists
         if (getArguments() != null && getArguments().containsKey("tripId")) {
-            newTripViewModel.getTripById(getArguments().getInt("tripId")).observe(requireActivity(), trip -> {
+            newTripViewModel.getTripById(getArguments().getInt("tripId")).observe(getViewLifecycleOwner(), trip -> {
                 if (trip != null) {
                     // loads trip in views
                     NewTripFragment.this.trip = trip;
+                    NewTripFragment.this.name = trip.getName();
+                    NewTripFragment.this.description = trip.getDescription();
 
                     binding.adultCount.howManyTv.setText(String.valueOf(trip.getNumOfAdults()));
                     binding.childrenCount.howManyTv.setText(String.valueOf(trip.getNumOfChildren()));
+                } else {
+                    trip = new Trip();
+                }
+
+                requireActivity().setTitle(trip.getName());
+            });
+        } else {
+            editDetails(new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                    ((MainActivity) requireActivity()).switchToScreen(WelcomeFragment.class, "Trip Planner", null);
                 }
             });
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_add_trip, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.menu_item_edit_details) {
+            editDetails(new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+        } else {
+            return false;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void editDetails(DialogInterface.OnClickListener negativeListener) {
+        AlertDialog.Builder detailDialog = new AlertDialog.Builder(requireActivity());
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_trip_details, null);
+        DialogTripDetailsBinding binding = (DialogTripDetailsBinding) DataBindingUtil.bind(dialogView);
+
+        if (binding != null) {
+            binding.textName.setText(name);
+            binding.textDescription.setText(description);
+        }
+
+        detailDialog
+                .setTitle(R.string.trip_details)
+                .setView(dialogView)
+                .setPositiveButton(R.string.btnSave, (dialogInterface, i) -> {
+
+                    if (binding != null && !binding.textName.getText().toString().isEmpty()) {
+                        name = binding.textName.getText().toString();
+
+                        if (binding.textDescription.getText().toString().isEmpty())
+                            description = null;
+                        else
+                            description = binding.textDescription.getText().toString();
+
+                        requireActivity().setTitle(name + "\n" + description);
+
+                        return;
+                    }
+
+                    negativeListener.onClick(dialogInterface, i);
+                })
+                .setNegativeButton(android.R.string.cancel, negativeListener)
+                .show();
     }
 
     /**
