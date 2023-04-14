@@ -1,5 +1,7 @@
 package ca.kdunn4781.assignment1;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -61,17 +63,6 @@ public class WelcomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                // if Permission is not granted, ask user for permission
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-//                        && getActivity().checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
-//                        && getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-//                    // Ask user permission for Fine and Coarse Location
-//                    getActivity().locationPermissionRequest.launch(new String[] {
-//                            Manifest.permission.ACCESS_FINE_LOCATION,
-//                            Manifest.permission.ACCESS_COARSE_LOCATION
-//                    });
-       //         }
                 ((MainActivity) requireActivity()).switchToScreen(NewTripFragment.class, savedInstanceState);
                 Log.d("Create", "switch to create saved trips");
             }
