@@ -67,14 +67,14 @@ public class TripWidgetConfigurationActivity extends AppCompatActivity implement
 
         savedTripsViewModel = new ViewModelProvider(this).get(SavedTripsViewModel.class);
         savedTripsViewModel.loadTrips().observe(this, trips -> {
-            if (trips == null) {
+            if (trips == null || trips.isEmpty()) {
                 new AlertDialog.Builder(TripWidgetConfigurationActivity.this)
                         .setMessage("No existing trips")
                         .setNeutralButton(android.R.string.ok, (dialogInterface, i) -> {
                             Intent resultValue1 = new Intent().putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
                             setResult(RESULT_CANCELED, resultValue1);
                             finish();
-                        });
+                        }).show();
             } else {
                 adapter.setList(trips);
             }
